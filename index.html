@@ -2,8 +2,8 @@
 <header><a class="brand" href="#">ЛЮКСПРИНТ</a><nav><button id="calcTab" class="nav active">Калькулятор</button><button id="savedTab" class="nav">Мои расчёты <span id="savedCount">0</span></button></nav></header>
 <main><section id="calculatorView">
 <div class="intro"><div><span class="pill">онлайн-калькулятор</span><h1>Готов к расчёту</h1><p>Выберите продукт — я помогу быстро посчитать предварительную стоимость.</p></div><div class="mascot"><div class="boat">◢<i></i>◣</div><div class="gem"><span></span><span></span></div></div></div>
-<section class="panel"><div class="products" id="products"></div>
-<div id="form" class="form hidden"><div class="formhead"><button id="backProducts">← Все продукты</button><div><small id="category"></small><h2 id="productName"></h2><p id="comment"></p></div></div>
+<button id="backProducts" class="backProducts hidden">← Все продукты</button><section class="panel"><div class="products" id="products"></div>
+<div id="form" class="form hidden"><div class="formhead"><div><small id="category"></small><h2 id="productName"></h2><p id="comment"></p></div></div>
 <div id="variantWrap"><label>Материал / вариант<select id="variant"></select></label></div>
 <div id="fixedSizeWrap" class="hidden"><label>Размер<select id="fixedSize"></select></label></div>
 <div id="dimensions"><div class="unitrow"><span>Единицы измерения</span><div class="unitSwitch"><button type="button" class="unit" data-unit="mm">мм</button><button type="button" class="unit" data-unit="cm">см</button><button type="button" class="unit active" data-unit="m">м</button></div></div><div class="fields"><label>Ширина, <span class="unitLabel">м</span><input id="w" type="number" min=".01" step=".01" value="1"></label><b>×</b><label>Высота, <span class="unitLabel">м</span><input id="h" type="number" min=".01" step=".01" value="1"></label></div></div>
