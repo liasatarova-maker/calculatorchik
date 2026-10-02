@@ -32,3 +32,8 @@
 .mascotImg{display:block;width:210px;height:180px;object-fit:contain;object-position:center;filter:drop-shadow(0 16px 22px #3159b522)}
 @media(max-width:700px){.mascotImg{width:145px;height:130px}}
 @media(max-width:430px){.mascotImg{width:155px;height:120px;margin:auto}}
+
+.service.eyelet{grid-template-columns:auto 1fr 118px}
+.service.eyelet>label{min-width:118px;width:118px}
+.service.eyelet>label input{width:118px;padding:8px 10px}
+@media(max-width:700px){.service.eyelet{grid-template-columns:auto 1fr}.service.eyelet>label{grid-column:2;width:118px;min-width:118px}}
