@@ -1,36 +1,15 @@
-<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Калькулятор печати — Искра</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<header><a class="brand" href="#">ИСКРА</a><span>Калькулятор печати</span></header>
-<main>
-<section class="hero">
-<div class="copy"><span class="pill">онлайн-калькулятор</span><h1>Посчитаем ваш заказ?</h1><p>Пара простых вопросов — и я покажу предварительную стоимость.</p><button id="start">Начать расчёт <b>→</b></button></div>
-<div class="mascot" aria-label="Стеклянный персонаж в бумажном кораблике"><div class="boat">◢<i></i>◣</div><div class="gem"><span></span><span></span></div></div>
-</section>
-<section id="calc" class="calc">
-<div class="steps"><span class="active">1</span><i></i><span>2</span><i></i><span>3</span><i></i><span>4</span></div>
-<div class="panel">
-<div id="screen1" class="screen active"><small>ШАГ 1 ИЗ 4</small><h2>Что будем делать?</h2><p>Выберите подходящий вариант</p><div class="products">
-<button data-product="Баннер" data-price="400">▰<b>Баннер</b><em>Для улицы и помещений</em></button>
-<button data-product="Наклейки" data-price="150">✦<b>Наклейки</b><em>Бумага или плёнка</em></button>
-<button data-product="Плёнка с печатью" data-price="500">◫<b>Плёнка с печатью</b><em>Печать и резка</em></button>
-<button data-product="Табличка" data-price="1800">▣<b>Табличка</b><em>Для офиса и улицы</em></button>
-<button data-product="Буквы и формы" data-price="2000">A<b>Буквы и формы</b><em>ПВХ или ПЭТ</em></button>
-<button data-product="Другое" data-price="0">＋<b>Другое</b><em>Поможем рассчитать</em></button>
-</div></div>
-<div id="screen2" class="screen"><small>ШАГ 2 ИЗ 4</small><h2>Какой размер?</h2><p id="chosen"></p><div class="fields"><label>Ширина, м<input id="w" type="number" min=".01" step=".01" value="1"></label><b>×</b><label>Высота, м<input id="h" type="number" min=".01" step=".01" value="1"></label></div><label class="qty">Количество<input id="q" type="number" min="1" step="1" value="1"></label><div class="actions"><button class="back">← Назад</button><button class="next">Продолжить →</button></div></div>
-<div id="screen3" class="screen"><small>ШАГ 3 ИЗ 4</small><h2>Нужен дизайн?</h2><p>Если макета нет, мы можем подготовить его.</p><div class="choice"><button data-design="0"><b>Макет уже готов</b><em>Прикрепите его при оформлении</em></button><button data-design="500"><b>Нужен дизайн</b><em>Добавим к предварительному расчёту</em></button></div><div class="actions"><button class="back">← Назад</button></div></div>
-<div id="screen4" class="screen result"><small>ГОТОВО</small><h2>Предварительная стоимость</h2><div class="receipt"><div><span id="rproduct">—</span><b id="rbase">0 ₽</b></div><div><span>Дизайн</span><b id="rdesign">0 ₽</b></div><hr><div class="total"><span>Итого</span><strong id="total">0 ₽</strong></div></div><p class="note">Финальную стоимость менеджер подтвердит после проверки параметров заказа.</p><button class="order">Оформить заявку →</button><button id="again" class="link">Изменить расчёт</button></div>
-</div>
-</section>
-</main>
-<footer>Искра · дизайнеры и печатники в цеху</footer>
-<script src="app.js"></script>
-</body></html>
+<!doctype html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Калькулятор печати — ЛюксПринт</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
+<header><a class="brand" href="#">ЛЮКСПРИНТ</a><nav><button id="calcTab" class="nav active">Калькулятор</button><button id="savedTab" class="nav">Мои расчёты <span id="savedCount">0</span></button></nav></header>
+<main><section id="calculatorView">
+<div class="intro"><div><span class="pill">онлайн-калькулятор</span><h1>Что будем делать?</h1><p>Выберите продукт — я помогу быстро посчитать предварительную стоимость.</p></div><div class="mascot"><div class="boat">◢<i></i>◣</div><div class="gem"><span></span><span></span></div></div></div>
+<section class="panel"><div class="products" id="products"></div>
+<div id="form" class="form hidden"><div class="formhead"><button id="backProducts">← Все продукты</button><div><small id="category"></small><h2 id="productName"></h2><p id="comment"></p></div></div>
+<div id="variantWrap"><label>Материал / вариант<select id="variant"></select></label></div>
+<div id="fixedSizeWrap" class="hidden"><label>Размер<select id="fixedSize"></select></label></div>
+<div id="dimensions"><div class="fields"><label>Ширина, м<input id="w" type="number" min=".01" step=".01" value="1"></label><b>×</b><label>Высота, м<input id="h" type="number" min=".01" step=".01" value="1"></label></div></div>
+<label class="qty">Количество<input id="q" type="number" min="1" step="1" value="1"></label>
+<div id="services" class="services"></div>
+<div class="design"><label><input id="designCheck" type="checkbox"> Нужен дизайн</label><div id="designPriceWrap" class="hidden"><label>Стоимость дизайна, ₽<input id="designPrice" type="number" min="0" step="50" value="500"></label></div></div>
+<div class="receipt"><div><span>Изделие</span><b id="basePrice">0 ₽</b></div><div id="serviceLine" class="hidden"><span>Доп. услуги</span><b id="servicePrice">0 ₽</b></div><div id="designLine" class="hidden"><span>Дизайн</span><b id="designOut">0 ₽</b></div><hr><div class="total"><span>Предварительно</span><strong id="total">0 ₽</strong></div></div>
+<div class="actions"><button id="save" class="secondary">Сохранить расчёт</button><button id="order" class="primary">Оформить заявку →</button></div><p class="note">Финальную стоимость менеджер подтвердит после проверки параметров.</p></div></section></section>
+<section id="savedView" class="hidden saved"><div class="savedHead"><div><span class="pill">сохранённое</span><h1>Мои расчёты</h1><p>Здесь хранятся расчёты на этом устройстве.</p></div></div><div id="savedList"></div></section></main><footer>ЛюксПринт · дизайнеры и печатники в цеху</footer><script src="app.js"></script></body></html>
