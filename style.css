@@ -61,3 +61,8 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 @media(min-width:901px){
 .backProducts{left:calc(50% - 530px);margin-top:28px}
 }
+
+/* Fix back button: keep it fully outside the card */
+@media(min-width:901px){
+.backProducts{left:calc(50% - 655px);margin-top:28px;transform:none}
+}
