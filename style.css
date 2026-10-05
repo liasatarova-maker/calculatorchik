@@ -54,3 +54,10 @@
 
 .productNote{margin-top:14px;padding:12px 14px;border:1px solid #e1e8f6;background:#f8faff;border-radius:13px;color:#64728d;font-size:12px;line-height:1.5}
 .productNote::before{content:"Важно";display:block;margin-bottom:3px;color:#345b9f;font-weight:700}
+
+/* Unified control geometry */
+:root{--control-radius:14px}
+input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receipt,.productNote,.primary,.secondary,.backProducts{border-radius:var(--control-radius)}
+@media(min-width:901px){
+.backProducts{left:calc(50% - 530px);margin-top:28px}
+}
