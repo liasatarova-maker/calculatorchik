@@ -66,3 +66,8 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 @media(min-width:901px){
 .backProducts{left:calc(50% - 655px);margin-top:28px;transform:none}
 }
+
+/* Anchor back button to the left edge of the 850px calculator panel */
+@media(min-width:901px){
+.backProducts{left:auto;right:calc(50% + 445px);margin-top:28px}
+}
