@@ -71,3 +71,8 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 @media(min-width:901px){
 .backProducts{left:auto;right:calc(50% + 445px);margin-top:28px}
 }
+
+/* Align back button with calculator card top edge */
+@media(min-width:901px){
+.backProducts{margin-top:0;transform:translateY(0)}
+}
