@@ -37,3 +37,12 @@
 .service.eyelet>label{min-width:118px;width:118px}
 .service.eyelet>label input{width:118px;padding:8px 10px}
 @media(max-width:700px){.service.eyelet{grid-template-columns:auto 1fr}.service.eyelet>label{grid-column:2;width:118px;min-width:118px}}
+
+/* Compact eyelet step control */
+.service.eyelet{grid-template-columns:auto minmax(0,1fr) 132px;align-items:center}
+.service.eyelet>label{width:132px;min-width:132px;white-space:normal;font-size:12px;line-height:1.15}
+.service.eyelet>label input{width:92px;height:38px;margin-top:5px;padding:6px 10px;font-size:14px;border-radius:10px}
+@media(max-width:700px){
+.service.eyelet{grid-template-columns:auto minmax(0,1fr)}
+.service.eyelet>label{grid-column:2;width:132px;min-width:132px}
+}
