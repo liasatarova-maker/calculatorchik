@@ -125,3 +125,13 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 @media(min-width:701px){
 #form>.priceModeWrap{right:0!important;left:auto!important}
 }
+
+/* Saved calculation price pinned to the top-right */
+.savedCard{position:relative;padding-right:22px}
+.savedTop{padding-right:0}
+.savedPrice{position:absolute;top:20px;right:22px;font-size:28px!important;line-height:1;font-weight:800;letter-spacing:-.03em}
+.savedMain{padding-right:155px}
+.savedSendBar{max-width:850px;margin:16px auto 0;background:#fff;border:1px solid #e0e7f4;border-radius:18px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.savedSendBar>div{display:grid;gap:2px}.savedSendBar span{font-size:12px;color:#8490a6}.savedSendBar strong{font-size:25px;color:#2459e8}
+.savedSendBar .primary{min-width:260px}
+@media(max-width:700px){.savedMain{padding-right:0}.savedPrice{position:static;font-size:20px!important}.savedSendBar{display:block}.savedSendBar .primary{width:100%;min-width:0;margin-top:12px}}
