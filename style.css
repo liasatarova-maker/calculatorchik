@@ -114,3 +114,8 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 .unitSwitch .unit.active,
 .unitSwitch .unit[aria-pressed="true"]{background:#fff!important;color:#2459e8!important;box-shadow:0 2px 8px #274d9d18!important}
 .unitSwitch .unit:not(.active){background:transparent;color:#7a879f;box-shadow:none}
+
+/* Exact right-edge alignment: price switch with form controls */
+@media(min-width:701px){
+.priceModeWrap{right:20px!important}
+}
