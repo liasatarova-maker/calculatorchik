@@ -119,3 +119,9 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 @media(min-width:701px){
 .priceModeWrap{right:20px!important}
 }
+
+/* Price mode aligns with the panel inner right edge.
+   #form fills the panel content box, so right:0 is the actual shared edge. */
+@media(min-width:701px){
+#form>.priceModeWrap{right:0!important;left:auto!important}
+}
