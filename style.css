@@ -135,3 +135,29 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 .savedSendBar>div{display:grid;gap:2px}.savedSendBar span{font-size:12px;color:#8490a6}.savedSendBar strong{font-size:25px;color:#2459e8}
 .savedSendBar .primary{min-width:260px}
 @media(max-width:700px){.savedMain{padding-right:0}.savedPrice{position:static;font-size:20px!important}.savedSendBar{display:block}.savedSendBar .primary{width:100%;min-width:0;margin-top:12px}}
+
+/* Unified compact dimension and quantity layout */
+.dimension-controls{display:grid;grid-template-columns:minmax(0,1fr) minmax(112px,.36fr);gap:14px;align-items:end;margin-top:14px}
+.dimension-controls #dimensions{min-width:0}
+.dimension-controls .unitrow{margin:0 0 12px}
+.dimension-controls .fields,.bannerForm .dimension-controls .fields{display:grid;grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr);align-items:end;gap:10px;margin:0;padding:0}
+.dimension-controls .fields label{min-width:0}
+.dimension-controls .fields>b{padding-bottom:14px}
+.dimension-controls .qty,.bannerForm .dimension-controls .qty,.bannerForm #dimensions + .qty{position:static!important;pointer-events:auto!important;opacity:1!important;display:grid!important;align-self:end;min-width:0;width:100%!important;max-width:none!important;margin:0!important;gap:0}
+.dimension-controls input{height:48px;min-width:0;padding:10px 12px;font-size:17px;font-weight:650;background:#fbfcff}
+.dimension-controls .qty input{margin-top:8px}
+.dimension-controls:has(#dimensions.hidden){display:block}
+.dimension-controls:has(#dimensions.hidden) .qty{max-width:190px!important}
+@media(max-width:700px){
+ .dimension-controls{grid-template-columns:minmax(0,1fr) minmax(90px,.38fr);gap:10px}
+ .dimension-controls .fields,.bannerForm .dimension-controls .fields{grid-template-columns:minmax(0,1fr) 14px minmax(0,1fr);gap:5px}
+ .dimension-controls input{padding:9px;font-size:15px}
+ .dimension-controls .fields>b{font-size:13px}
+}
+@media(max-width:430px){
+ .dimension-controls{grid-template-columns:minmax(0,1fr) 90px;gap:8px}
+ .dimension-controls .fields label,.dimension-controls .qty{font-size:11px}
+ .dimension-controls .fields,.bannerForm .dimension-controls .fields{grid-template-columns:minmax(0,1fr) 10px minmax(0,1fr);gap:4px}
+ .dimension-controls input{height:44px;padding:8px 6px;font-size:14px}
+ .dimension-controls .unitrow{flex-wrap:wrap;gap:7px}
+}
