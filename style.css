@@ -120,80 +120,125 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 .savedSendBar .primary{min-width:260px}
 @media(max-width:700px){.savedMain{padding-right:0}.savedPrice{position:static;font-size:20px!important}.savedSendBar{display:block}.savedSendBar .primary{width:100%;min-width:0;margin-top:12px}}
 
-/* Compact shared size controls: width × height, units, then quantity */
-.measureControls{
-  display:grid;
-  grid-template-columns:minmax(0,350px) minmax(0,180px) minmax(0,120px);
-  gap:12px;
-  align-items:end;
-  max-width:674px;
-  margin:16px 0 0;
+/* Uniform, compact field dimensions across product cards */
+:root {
+  --calc-field-height: 46px;
+  --calc-field-radius: 14px;
+  --calc-field-gap: 10px;
+}
+#form input[type="number"],
+#form select {
+  height: var(--calc-field-height);
+  min-height: var(--calc-field-height);
+  border-radius: var(--calc-field-radius);
+  padding: 9px 12px;
+  font-size: 16px;
+}
+#form input[type="checkbox"] {
+  box-sizing: border-box;
+  width: 18px;
+  min-width: 18px;
+  height: 18px;
+  min-height: 18px;
+  flex: 0 0 18px;
+  margin: 0;
+  padding: 0;
+  accent-color: #2459e8;
+  cursor: pointer;
+}
+.measureControls {
+  display: grid;
+  grid-template-columns: minmax(0, 282px) minmax(0, 156px) minmax(0, 132px);
+  align-items: end;
+  gap: var(--calc-field-gap);
+  width: fit-content;
+  max-width: 100%;
+  margin: 16px 0 0;
 }
 .measureControls #dimensions,
 .measureControls .unitsField,
-.measureControls .qty{min-width:0}
-.measureControls .fields{
-  display:grid;
-  grid-template-columns:minmax(0,1fr) 16px minmax(0,1fr);
-  gap:8px;
-  align-items:end;
-  margin:0;
+.measureControls .qty {
+  min-width: 0;
+}
+.measureControls .fields {
+  display: grid;
+  grid-template-columns: minmax(0,1fr) 16px minmax(0,1fr);
+  gap: 8px;
+  align-items: end;
+  margin: 0;
 }
 .measureControls .fields label,
 .measureControls .unitsField,
-.measureControls .qty{
-  display:block;
-  color:#596680;
-  font-size:13px;
-  font-weight:600;
-  line-height:1.35;
+.measureControls .qty {
+  display: block;
+  color: #596680;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
 }
 .measureControls .fields input,
-.measureControls .qty input{
-  display:block;
-  width:100%;
-  height:48px;
-  margin-top:8px;
-  padding:9px 12px;
+.measureControls .qty input {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
 }
-.measureControls .fields>b{padding-bottom:14px}
-.measureControls .qty{max-width:none;margin:0}
-.measureControls .compactFieldLabel{display:block;margin-bottom:8px;white-space:nowrap}
-.measureControls .unitSwitch{
-  display:flex;
-  width:100%;
-  height:48px;
-  padding:3px;
-  align-items:center;
-  justify-content:space-between;
+.measureControls .fields>b { padding-bottom: 13px; }
+.measureControls .qty { width: 132px; max-width: 100%; margin: 0; }
+.measureControls .compactFieldLabel {
+  display: block;
+  margin-bottom: 8px;
+  white-space: nowrap;
 }
-.measureControls .unitSwitch .unit{
-  min-width:0;
-  flex:1;
-  height:42px;
-  padding:6px 4px;
-  border-radius:11px;
+.measureControls .unitSwitch {
+  display: flex;
+  width: 100%;
+  height: var(--calc-field-height);
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px;
+  border-radius: var(--calc-field-radius);
 }
-.measureControls.quantityOnly{display:block;max-width:220px}
-.measureControls.quantityOnly .qty{max-width:220px}
-@media(max-width:760px){
-  .measureControls{
-    grid-template-columns:minmax(0,1fr) minmax(108px,140px);
-    max-width:100%;
-    gap:12px;
+.measureControls .unitSwitch .unit {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 5px 4px;
+  border-radius: 11px;
+}
+.measureControls.quantityOnly {
+  display: block;
+  width: 132px;
+  max-width: 100%;
+}
+.measureControls.quantityOnly .qty { width: 100%; }
+#form .service input[type="number"] {
+  max-width: 132px;
+}
+#form .service.eyelet>label input[type="number"] {
+  width: 100px;
+  max-width: 100%;
+}
+@media(max-width: 760px) {
+  .measureControls {
+    display: grid;
+    grid-template-columns: minmax(0, 156px) minmax(0, 132px);
+    width: fit-content;
+    max-width: 100%;
+    gap: 12px;
   }
-  .measureControls #dimensions{grid-column:1/-1}
-  .measureControls .unitsField{grid-column:1}
-  .measureControls .qty{grid-column:2}
-  .measureControls.quantityOnly .qty{grid-column:auto}
+  .measureControls #dimensions { grid-column: 1 / -1; width: min(282px, 100%); }
+  .measureControls .unitsField { grid-column: 1; }
+  .measureControls .qty { grid-column: 2; }
+  .measureControls.quantityOnly .qty { grid-column: auto; }
 }
-@media(max-width:420px){
-  .measureControls{grid-template-columns:minmax(0,1fr)}
+@media(max-width: 340px) {
+  .measureControls {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+  }
   .measureControls #dimensions,
   .measureControls .unitsField,
-  .measureControls .qty{grid-column:1}
-  .measureControls .unitsField{max-width:190px}
-  .measureControls .qty{max-width:160px}
+  .measureControls .qty { grid-column: 1; }
 }
 
 /* Compact, price-free design request on every product */
@@ -224,68 +269,72 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   line-height:1.45;
 }
 
-/* Canvas size and optional packaging on one line */
-.canvasOptions{
-  display:grid;
-  grid-template-columns:minmax(0,380px) minmax(0,280px);
-  align-items:end;
-  gap:16px;
-  max-width:680px;
-  margin:16px 0 0;
+/* Canvas controls: size and packaging next to one another */
+.canvasOptions {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) minmax(0, 300px);
+  gap: 12px;
+  align-items: end;
+  width: fit-content;
+  max-width: 100%;
+  margin: 16px 0 0;
 }
 .canvasOptions #fixedSizeWrap,
-.canvasOptions .canvasPackagingWrap{min-width:0}
-.form .canvasOptions #fixedSizeWrap>label{
-  display:grid;
-  gap:8px;
-  margin:0;
-  font-size:13px;
-  font-weight:600;
-  color:#596680;
+.canvasOptions .canvasPackagingWrap { min-width: 0; }
+.form .canvasOptions #fixedSizeWrap>label {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  color: #596680;
+  font-size: 13px;
+  font-weight: 600;
 }
-.canvasOptions #fixedSizeWrap select{
-  width:100%;
-  height:48px;
-  min-height:48px;
-  padding:8px 14px;
+#form .canvasOptions #fixedSizeWrap select {
+  width: 100%;
+  max-width: 220px;
+  min-height: var(--calc-field-height);
 }
-.canvasPackagingWrap{display:grid;gap:8px}
-.canvasOptionTitle{
-  color:#596680;
-  font-size:13px;
-  font-weight:600;
-  line-height:1.35;
+.canvasPackagingWrap { display: grid; gap: 8px; }
+.canvasOptionTitle {
+  color: #596680;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
 }
-.canvasPackagingToggle{
-  display:flex;
-  align-items:center;
-  min-height:48px;
-  gap:8px;
-  border:1px solid #dfe5f0;
-  background:#f8faff;
-  border-radius:14px;
-  padding:9px 12px;
-  color:#17284e;
-  font-size:13px;
-  font-weight:600;
-  cursor:pointer;
+.canvasPackagingToggle {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: var(--calc-field-height);
+  gap: 9px;
+  padding: 8px 12px;
+  border: 1px solid #dfe5f0;
+  border-radius: var(--calc-field-radius);
+  background: #f8faff;
+  color: #17284e;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
 }
-.canvasPackagingToggle:focus-within{border-color:#2459e8;box-shadow:0 0 0 3px #2459e812}
-.canvasPackagingToggle input[type=checkbox]{
-  width:18px;height:18px;flex:0 0 18px;margin:0;
+.canvasPackagingToggle:focus-within {
+  border-color: #2459e8;
+  box-shadow: 0 0 0 3px #2459e812;
 }
-.canvasPackagingToggle span{white-space:nowrap}
-.canvasPackagingToggle b{
-  margin-left:auto;
-  white-space:nowrap;
-  font-size:12px;
-  font-weight:600;
-  color:#4e70ad;
+.canvasPackagingToggle span { white-space: nowrap; }
+.canvasPackagingToggle b {
+  margin-left: auto;
+  color: #4e70ad;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
 }
-@media(max-width:700px){
-  .canvasOptions{grid-template-columns:minmax(0,1fr);max-width:480px;gap:12px}
-}
-@media(max-width:400px){
-  .canvasPackagingToggle{flex-wrap:wrap}
-  .canvasPackagingToggle b{margin-left:26px}
+@media(max-width: 700px) {
+  .canvasOptions {
+    grid-template-columns: minmax(0, 220px);
+    width: min(300px, 100%);
+    gap: 12px;
+  }
+  #form .canvasOptions #fixedSizeWrap select { max-width: 100%; }
+  .canvasPackagingToggle { flex-wrap: wrap; }
+  .canvasPackagingToggle b { margin-left: 27px; }
 }
