@@ -167,7 +167,7 @@ function renderServices(){
           </label>
         </div>
       </div>
-      <div class="bannerFactLine" aria-live="polite">
+      <div class="bannerFactLine hidden" aria-live="polite">
         <span class="bannerFactStep hidden" data-eyelet-result="1"></span>
       </div>
     </div>`;
@@ -238,6 +238,8 @@ const serviceDetails={};
     serviceDetails[i]=`${eyelets.count} шт. на изделие × ${q} шт. — ${money(amount)}; фактический шаг ${fmtEyeletStep(eyelets.widthStep)} / ${fmtEyeletStep(eyelets.heightStep)} см`;
   }else extra+=s[1]*qty;
 });
+const bannerFactLine=$("#services .bannerFactLine");
+if(bannerFactLine)bannerFactLine.classList.toggle("hidden",!bannerFactLine.querySelector(".bannerFactStep:not(.hidden)"));
 $("#basePrice").textContent=money(base);
 $("#serviceLine").classList.toggle("hidden",!extra||cur.c==="BANNER");
 $("#servicePrice").textContent=money(extra);
