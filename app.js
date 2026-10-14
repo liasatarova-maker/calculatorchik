@@ -151,7 +151,30 @@ $("#fileGuideText").textContent="Требования к подготовке ф
 $("#fileGuide").classList.remove("hidden");
 calc()}
 function updateCanvasPackagingLabel(){const selected=cur?.sizes?.[+$("#fixedSize").value||0];$("#canvasPackagingPrice").textContent=selected&&cur.c==="HOLST"?"+"+money(selected[4]||0)+" / шт.":""}
-function renderServices(){const box=$("#services");box.innerHTML=(cur.s||[]).map((s,i)=>s[2]==="autoPerimeter"?`<div class="service"><input type="checkbox" data-si="${i}"><span><b>Проклей · ${money(s[1])}/пог. м</b><small>Метраж рассчитывается автоматически по периметру баннера.</small><span class="eyeletResult" data-perimeter-result="${i}"></span></span></div>`:s[2]==="autoEyelets"?`<div class="service eyelet"><input type="checkbox" data-si="${i}"><span><b>Люверсы · ${money(s[1])}/шт.</b><small>Ближайший шаг по каждой стороне с отступом 1,5 см от края. Угловые люверсы учитываются один раз.</small><span class="eyeletResult" data-eyelet-result="${i}"></span></span><label>Желаемый шаг, см<input class="serviceQty" data-qi="${i}" type="number" min="1" step="1" value="20"></label></div>`:`<div class="service"><input type="checkbox" data-si="${i}"><span>${s[0]} · ${money(s[1])}/${s[2]}</span><input class="serviceQty" data-qi="${i}" type="number" min="0" step="1" value="0" placeholder="Количество"></div>`).join("");box.classList.toggle("hidden",!(cur.s||[]).length);box.querySelectorAll("input").forEach(x=>x.addEventListener("input",calc))}
+function renderServices(){
+  const box=$("#services");
+  if(cur.c==="BANNER"){
+    box.innerHTML=`<div class="bannerExtras">
+      <div class="bannerExtrasHeading">Дополнительная обработка</div>
+      <div class="bannerExtraRow">
+        <label class="bannerExtraCheck"><input type="checkbox" data-si="0"><span>Проклей</span></label>
+      </div>
+      <div class="bannerExtraRow bannerExtraEyelets">
+        <div class="bannerExtraInfo">
+          <label class="bannerExtraCheck"><input type="checkbox" data-si="1"><span>Люверсы</span></label>
+          <span class="bannerFactStep hidden" data-eyelet-result="1" aria-live="polite"></span>
+        </div>
+        <label class="bannerDesiredStep">Желаемый шаг, см
+          <input class="serviceQty" data-qi="1" type="number" min="1" step="1" value="20">
+        </label>
+      </div>
+    </div>`;
+  }else{
+    box.innerHTML=(cur.s||[]).map((s,i)=>`<div class="service"><input type="checkbox" data-si="${i}"><span>${s[0]} · ${money(s[1])}/${s[2]}</span><input class="serviceQty" data-qi="${i}" type="number" min="0" step="1" value="0" placeholder="Количество"></div>`).join("");
+  }
+  box.classList.toggle("hidden",!(cur.s||[]).length);
+  box.querySelectorAll("input").forEach(x=>x.addEventListener("input",calc));
+}
 const EYELET_EDGE_OFFSET_CM=1.5;
 function calculateEyelets(widthCm,heightCm,desiredStepCm){
   const spanW=widthCm-2*EYELET_EDGE_OFFSET_CM;
@@ -183,10 +206,53 @@ function fmtStep(n){return Number.isInteger(n)?String(n):n.toFixed(1).replace(".
     $("#sra3Sheets").textContent="—";
     $("#sra3LayoutNote").textContent="Изделие не помещается на лист SRA3 (330 × 487 мм) с полями 2 мм. Уменьшите размеры.";
   }
-}else if(cur.t==="business"){base=cur.v[idx]?.[1]||0}else if(cur.t==="cards"){q=Math.max(120,120+Math.round((q-120)/30)*30);$("#q").value=q;base=(cur.v[idx]?.[1]||0)*q}const packaging=cur.c==="HOLST"&&$("#canvasPackaging").checked?(cur.sizes[+$("#fixedSize").value||0]?.[4]||0)*q:0;let extra=0;(cur.s||[]).forEach((s,i)=>{const ch=$(`[data-si="${i}"]`),input=$(`[data-qi="${i}"]`),qty=+input?.value||0;if(!ch?.checked)return;if(s[2]==="autoPerimeter"){const perimeter=2*(dimM("w")+dimM("h"));extra+=s[1]*perimeter*q;const out=$(`[data-perimeter-result="${i}"]`);if(out)out.textContent=`Периметр: ${fmtStep(perimeter)} м · ${money(s[1]*perimeter*q)}`}else if(s[2]==="autoEyelets"){const eyelets=calculateEyelets(dimM("w")*100,dimM("h")*100,qty);const out=$(`[data-eyelet-result="${i}"]`);if(!eyelets){if(out)out.textContent="Для люверсов размеры баннера должны быть больше 3 см, а желаемый шаг — больше нуля.";return;}extra+=s[1]*eyelets.count*q;if(out)out.textContent=`Отступ 1,5 см · ширина: ${eyelets.widthCount} шт., шаг ${fmtEyeletStep(eyelets.widthStep)} см · высота: ${eyelets.heightCount} шт., шаг ${fmtEyeletStep(eyelets.heightStep)} см · всего ${eyelets.count} шт. на изделие · ${money(s[1]*eyelets.count*q)}`}else extra+=s[1]*qty});$("#basePrice").textContent=money(base);$("#serviceLine").classList.toggle("hidden",!extra);$("#servicePrice").textContent=money(extra);$("#packagingLine").classList.toggle("hidden",!packaging);$("#packagingOut").textContent=money(packaging);const invalidSra=cur.c==="SRA3"&&!sraLayout;
+}else if(cur.t==="business"){base=cur.v[idx]?.[1]||0}else if(cur.t==="cards"){q=Math.max(120,120+Math.round((q-120)/30)*30);$("#q").value=q;base=(cur.v[idx]?.[1]||0)*q}const packaging=cur.c==="HOLST"&&$("#canvasPackaging").checked?(cur.sizes[+$("#fixedSize").value||0]?.[4]||0)*q:0;let extra=0;
+const bannerBreakdown={perimeter:null,eyelets:null};
+const serviceDetails={};
+(cur.s||[]).forEach((s,i)=>{
+  const ch=$(`[data-si="${i}"]`),input=$(`[data-qi="${i}"]`),qty=+input?.value||0;
+  const factStep=$(`[data-eyelet-result="${i}"]`);
+  if(factStep)factStep.classList.add("hidden");
+  if(!ch?.checked)return;
+  if(s[2]==="autoPerimeter"){
+    const perimeter=2*(dimM("w")+dimM("h"));
+    const amount=s[1]*perimeter*q;
+    extra+=amount;
+    bannerBreakdown.perimeter={perimeter,amount};
+    serviceDetails[i]=`${fmtEyeletStep(perimeter)} пог. м на изделие × ${q} шт. — ${money(amount)}`;
+  }else if(s[2]==="autoEyelets"){
+    const eyelets=calculateEyelets(dimM("w")*100,dimM("h")*100,qty);
+    if(!eyelets){
+      if(factStep){factStep.textContent="Проверьте размер и шаг";factStep.classList.remove("hidden")}
+      return;
+    }
+    const amount=s[1]*eyelets.count*q;
+    extra+=amount;
+    bannerBreakdown.eyelets={...eyelets,amount};
+    if(factStep){
+      factStep.textContent=`Фактический: ширина ${fmtEyeletStep(eyelets.widthStep)} см · высота ${fmtEyeletStep(eyelets.heightStep)} см`;
+      factStep.classList.remove("hidden");
+    }
+    serviceDetails[i]=`${eyelets.count} шт. на изделие × ${q} шт. — ${money(amount)}; фактический шаг ${fmtEyeletStep(eyelets.widthStep)} / ${fmtEyeletStep(eyelets.heightStep)} см`;
+  }else extra+=s[1]*qty;
+});
+$("#basePrice").textContent=money(base);
+$("#serviceLine").classList.toggle("hidden",!extra||cur.c==="BANNER");
+$("#servicePrice").textContent=money(extra);
+$("#bannerPerimeterLine").classList.toggle("hidden",cur.c!=="BANNER"||!bannerBreakdown.perimeter);
+$("#bannerEyeletLine").classList.toggle("hidden",cur.c!=="BANNER"||!bannerBreakdown.eyelets);
+if(bannerBreakdown.perimeter){
+  $("#bannerPerimeterLabel").textContent=`Проклей · ${fmtEyeletStep(bannerBreakdown.perimeter.perimeter)} пог. м × ${q} шт.`;
+  $("#bannerPerimeterPrice").textContent=money(bannerBreakdown.perimeter.amount);
+}
+if(bannerBreakdown.eyelets){
+  $("#bannerEyeletLabel").textContent=`Люверсы · ${bannerBreakdown.eyelets.count} шт. × ${q} изд.`;
+  $("#bannerEyeletPrice").textContent=money(bannerBreakdown.eyelets.amount);
+}
+$("#packagingLine").classList.toggle("hidden",!packaging);$("#packagingOut").textContent=money(packaging);const invalidSra=cur.c==="SRA3"&&!sraLayout;
  $("#save").disabled=invalidSra;$("#order").disabled=invalidSra;
  $("#total").textContent=invalidSra?"—":money(base+extra+packaging);
- return{base,extra,packaging,total:base+extra+packaging,sraLayout,valid:!invalidSra}}
+ return{base,extra,packaging,total:base+extra+packaging,sraLayout,serviceDetails,valid:!invalidSra}}
 document.querySelectorAll(".priceMode").forEach(b=>b.onclick=()=>{priceMode=b.dataset.mode;document.querySelectorAll(".priceMode").forEach(x=>x.classList.toggle("active",x===b));calc()});document.querySelectorAll(".unit").forEach(b=>b.onclick=()=>{const next=b.dataset.unit;if(next===currentUnit)return;const old=unitFactor();currentUnit=next;const neu=unitFactor();["w","h"].forEach(id=>{const el=$("#"+id);el.value=+(el.value*old/neu).toFixed(currentUnit==="m"?3:currentUnit==="cm"?1:0)});refreshUnitControls();calc()});["w","h","q","variant"].forEach(id=>$("#"+id).addEventListener("input",calc));["sraMaterial","sraSides"].forEach(id=>$("#"+id).addEventListener("change",()=>{updateSraVariant();calc()}));document.querySelectorAll(".sraSideChip").forEach(button=>button.addEventListener("click",()=>{if(button.disabled||cur?.c!=="SRA3")return;$("#sraSides").value=button.dataset.side;updateSraVariant();calc()}));$("#fixedSize").addEventListener("change",()=>{updateCanvasPackagingLabel();calc()});$("#canvasPackaging").addEventListener("change",calc);$("#designCheck").onchange=calc;$("#backProducts").onclick=()=>{
   rememberProductDraft();
   closeFileGuide();
@@ -206,7 +272,7 @@ document.addEventListener("click",e=>{
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeFileGuide()});
 function getSaved(){try{const a=JSON.parse(localStorage.getItem("luxprint-calcs")||"[]");if(!Array.isArray(a))return[];let updated=false;a.forEach(x=>{if(x&&x.designPricingVersion!==2){if(x.design&&Number.isFinite(+x.designPrice)&&+x.designPrice>0)x.total=Math.max(0,(+x.total||0)-(+x.designPrice));delete x.designPrice;x.designPricingVersion=2;updated=true}});if(updated)localStorage.setItem("luxprint-calcs",JSON.stringify(a));return a}catch{return[]}}
 function setSaved(x){localStorage.setItem("luxprint-calcs",JSON.stringify(x));renderSaved()}
-function snapshot(){const r=calc(),idx=+$("#variant").value||0,si=+$("#fixedSize").value||0,services=(cur.s||[]).map((s,i)=>({name:s[0],checked:!!$('[data-si="'+i+'"]')?.checked,qty:+$('[data-qi="'+i+'"]')?.value||0,details:$('[data-eyelet-result="'+i+'"]')?.textContent||""}));return{id:Date.now(),product:cur.c,name:cur.n,date:new Date().toLocaleDateString("ru-RU"),priceMode,unit:currentUnit,variant:idx,variantName:cur.v?.[idx]?.[0]||"",fixedSize:si,sizeName:cur.sizes?.[si]?cur.sizes[si][0]+"×"+cur.sizes[si][1]+" см":"",w:+$("#w").value||0,h:+$("#h").value||0,q:+$("#q").value||1,design:!!$("#designCheck").checked,designPricingVersion:2,sra3Layout:cur.c==="SRA3"?r.sraLayout:null,packaging:cur.c==="HOLST"&&$("#canvasPackaging").checked,packagingUnitPrice:cur.c==="HOLST"&&$("#canvasPackaging").checked?(cur.sizes[si]?.[4]||0):0,services,total:r.total}}
+function snapshot(){const r=calc(),idx=+$("#variant").value||0,si=+$("#fixedSize").value||0,services=(cur.s||[]).map((s,i)=>({name:s[0],checked:!!$('[data-si="'+i+'"]')?.checked,qty:+$('[data-qi="'+i+'"]')?.value||0,details:r.serviceDetails?.[i]||$('[data-eyelet-result="'+i+'"]')?.textContent||""}));return{id:Date.now(),product:cur.c,name:cur.n,date:new Date().toLocaleDateString("ru-RU"),priceMode,unit:currentUnit,variant:idx,variantName:cur.v?.[idx]?.[0]||"",fixedSize:si,sizeName:cur.sizes?.[si]?cur.sizes[si][0]+"×"+cur.sizes[si][1]+" см":"",w:+$("#w").value||0,h:+$("#h").value||0,q:+$("#q").value||1,design:!!$("#designCheck").checked,designPricingVersion:2,sra3Layout:cur.c==="SRA3"?r.sraLayout:null,packaging:cur.c==="HOLST"&&$("#canvasPackaging").checked,packagingUnitPrice:cur.c==="HOLST"&&$("#canvasPackaging").checked?(cur.sizes[si]?.[4]||0):0,services,total:r.total}}
 let editingId=null;
 $("#save").onclick=()=>{const item=snapshot(),arr=getSaved();if(editingId){item.id=editingId;const i=arr.findIndex(x=>x.id==editingId);if(i>=0)arr[i]=item;else arr.unshift(item);editingId=null}else arr.unshift(item);setSaved(arr);$("#save").textContent="Сохранено ✓";setTimeout(()=>$("#save").textContent="Сохранить расчёт",1200)};
 function savedDetails(x){const parts=[];if(x.variantName)parts.push("Вариант: "+x.variantName);if(x.sizeName)parts.push("Размер: "+x.sizeName);if(x.w&&x.h)parts.push("Размер: "+x.w+" × "+x.h+" "+(x.unit||"м"));if(x.q)parts.push("Количество: "+x.q);if(x.priceMode&&x.product!=="SRA3")parts.push("Цена: "+(x.priceMode==="wholesale"?"опт":"розница"));if(x.product==="SRA3"&&x.sra3Layout)parts.push("SRA3: "+x.sra3Layout.perSheet+" шт./лист · "+x.sra3Layout.sheets+" л. · "+x.sra3Layout.columns+" × "+x.sra3Layout.rows+(x.sra3Layout.rotated?" (поворот 90°)":""));if(x.packaging)parts.push("Упаковка: "+money(x.packagingUnitPrice||0)+" / шт. × "+(x.q||1));(x.services||[]).filter(s=>s.checked).forEach(s=>parts.push(s.name+(s.qty?" · "+s.qty:"")+(s.details?" · "+s.details:"")));if(x.design)parts.push("Нужен дизайн — стоимость уточнит менеджер");return parts}
