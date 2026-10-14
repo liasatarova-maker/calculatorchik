@@ -231,7 +231,7 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   .measureControls .qty { grid-column: 2; }
   .measureControls.quantityOnly .qty { grid-column: auto; }
 }
-@media(max-width: 340px) {
+@media(max-width: 400px) {
   .measureControls {
     grid-template-columns: minmax(0, 1fr);
     width: 100%;
@@ -328,7 +328,7 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   font-weight: 600;
   white-space: nowrap;
 }
-@media(max-width: 700px) {
+@media(max-width: 620px) {
   .canvasOptions {
     grid-template-columns: minmax(0, 220px);
     width: min(300px, 100%);
