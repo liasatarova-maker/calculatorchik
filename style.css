@@ -476,3 +476,79 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 @media(max-width:380px){
   .sraSideChips{flex-wrap:wrap}
 }
+
+/* Contextual guide outside the product card on desktop */
+.panel{position:relative}
+.fileGuide{
+  position:absolute;
+  top:26px;
+  right:-181px;
+  width:169px;
+  z-index:5;
+}
+.fileGuideButton{
+  width:100%;
+  border:1px solid #dbe4f5;
+  background:#f4f7ff;
+  border-radius:14px;
+  padding:9px 10px;
+  display:flex;
+  align-items:center;
+  gap:7px;
+  text-align:left;
+  color:#45669f;
+  font-size:11px;
+  line-height:1.35;
+  font-weight:700;
+  box-shadow:0 4px 16px #284d9e0a;
+}
+.fileGuideButton:hover,.fileGuideButton[aria-expanded="true"]{
+  background:#e9f0ff;
+  border-color:#b8c9ef;
+  color:#2459e8;
+}
+.fileGuideIcon{
+  display:grid;
+  place-items:center;
+  flex:0 0 21px;
+  width:21px;
+  height:21px;
+  border:1px solid currentColor;
+  border-radius:50%;
+  font-size:12px;
+}
+.fileGuideChevron{margin-left:auto;font-size:15px}
+.fileGuideContent{
+  position:absolute;
+  top:calc(100% + 8px);
+  right:0;
+  width:285px;
+  max-width:min(285px,calc(100vw - 30px));
+  padding:16px;
+  border:1px solid #dbe4f5;
+  border-radius:14px;
+  background:white;
+  box-shadow:0 16px 38px #1a376c1e;
+  color:#17284e;
+  font-size:13px;
+  line-height:1.5;
+}
+.fileGuideContent strong{display:block;margin-bottom:7px}
+.fileGuideContent p{margin:0;color:#647797}
+@media(max-width:1250px){
+  .fileGuide{
+    position:relative;
+    top:auto;
+    right:auto;
+    width:auto;
+    margin-top:15px;
+    display:flex;
+    justify-content:flex-end;
+  }
+  .fileGuideButton{width:auto;max-width:240px}
+  .fileGuideContent{top:calc(100% + 7px);right:0}
+}
+@media(max-width:450px){
+  .fileGuide{justify-content:stretch}
+  .fileGuideButton{max-width:none;width:100%}
+}

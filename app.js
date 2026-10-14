@@ -69,21 +69,87 @@ function refreshUnitControls(){
   }
 }
 
+// Keep unfinished calculations separately for each product on this page.
+const productDrafts=new Map();
+function rememberProductDraft(){
+  if(!cur)return;
+  productDrafts.set(cur.c,{
+    variant:$("#variant").value,
+    fixedSize:$("#fixedSize").value,
+    unit:currentUnit,
+    w:$("#w").value,
+    h:$("#h").value,
+    q:$("#q").value,
+    priceMode,
+    packaging:$("#canvasPackaging").checked,
+    design:$("#designCheck").checked,
+    editingId,
+    services:(cur.s||[]).map((s,i)=>({
+      checked:!!$('[data-si="'+i+'"]')?.checked,
+      qty:$('[data-qi="'+i+'"]')?.value||""
+    }))
+  });
+}
+function restoreProductDraft(draft){
+  editingId=null;
+  $("#save").textContent="Сохранить расчёт";
+  if(!draft)return;
+  const variant=Number(draft.variant);
+  if(cur.v&&Number.isInteger(variant)&&variant>=0&&variant<cur.v.length){
+    $("#variant").value=String(variant);
+    $(".variantChip").forEach(b=>b.classList.toggle("active",+b.dataset.vi===variant));
+    if(cur.c==="SRA3")restoreSraVariant(variant);
+  }
+  if(cur.sizes&&draft.fixedSize!=null&&cur.sizes[+draft.fixedSize]){
+    $("#fixedSize").value=String(draft.fixedSize);
+  }
+  priceMode=cur.priceModes&&draft.priceMode==="wholesale"?"wholesale":"retail";
+  $(".priceMode").forEach(b=>b.classList.toggle("active",b.dataset.mode===priceMode));
+  currentUnit=(cur.c==="SRA3"
+    ?(["mm","cm"].includes(draft.unit)?draft.unit:"mm")
+    :(["m","cm","mm"].includes(draft.unit)?draft.unit:"m"));
+  refreshUnitControls();
+  $("#w").value=draft.w??$("#w").value;
+  $("#h").value=draft.h??$("#h").value;
+  const minQuantity=cur.t==="cards"?120:1;
+  $("#q").value=String(Math.max(minQuantity,Number(draft.q)||minQuantity));
+  $("#canvasPackaging").checked=cur.c==="HOLST"&&!!draft.packaging;
+  $("#designCheck").checked=!!draft.design;
+  (draft.services||[]).forEach((service,i)=>{
+    const checkbox=$('[data-si="'+i+'"]');
+    const value=$('[data-qi="'+i+'"]');
+    if(checkbox)checkbox.checked=!!service.checked;
+    if(value)value.value=service.qty??value.value;
+  });
+  updateCanvasPackagingLabel();
+  editingId=draft.editingId??null;
+  $("#save").textContent=editingId?"Сохранить изменения":"Сохранить расчёт";
+}
+function closeFileGuide(){
+  $("#fileGuideContent").classList.add("hidden");
+  $("#fileGuideButton").setAttribute("aria-expanded","false");
+}
 function renderProducts(){$("#products").innerHTML=DATA.products.map((p,i)=>`<button class="product" data-i="${i}"><b>${p.n}</b><em>${DATA.cats[p.cat]}</em></button>`).join("");$$(".product").forEach(b=>b.onclick=()=>openProduct(+b.dataset.i))}
-function openProduct(i){const prevProduct=cur?.c;cur=DATA.products[i];$("#products").classList.add("hidden");$("#form").classList.remove("hidden");$("#backProducts").classList.remove("hidden");$("#category").textContent=DATA.cats[cur.cat];$("#productName").textContent=cur.n;$("#comment").textContent=cur.d||"";$("#variantWrap").classList.toggle("hidden",cur.t==="fixed"||cur.c==="SRA3");$("#sra3Options").classList.toggle("hidden",cur.c!=="SRA3");$("#sra3Summary").classList.toggle("hidden",cur.c!=="SRA3");$("#canvasOptions").classList.toggle("hidden",cur.t!=="fixed");$("#fixedSizeWrap").classList.toggle("hidden",cur.t!=="fixed");$("#canvasPackagingWrap").classList.toggle("hidden",cur.c!=="HOLST");$("#canvasPackaging").checked=false;const quantityField=$("#q").closest("label");if(cur.c==="HOLST"){$("#canvasOptions").appendChild(quantityField)}else{$("#measureControls").appendChild(quantityField)}$("#measureControls").classList.toggle("hidden",cur.c==="HOLST");$("#priceModeWrap").classList.toggle("hidden",!cur.priceModes);priceMode="retail";document.querySelectorAll(".priceMode").forEach(x=>x.classList.toggle("active",x.dataset.mode==="retail"));const noDimensions=["fixed","business","cards"].includes(cur.t);$("#dimensions").classList.toggle("hidden",noDimensions);$("#unitsField").classList.toggle("hidden",noDimensions);$("#measureControls").classList.toggle("quantityOnly",noDimensions);$("#q").parentElement.classList.toggle("hidden",cur.t==="business");if(cur.t==="cards"){$("#q").parentElement.classList.remove("hidden");$("#q").min="120";$("#q").step="30";$("#q").value="120"}else{$("#q").min="1";$("#q").step="1";if(+$("#q").value<1)$("#q").value="1"};if(cur.v){$("#variant").innerHTML=cur.v.map((v,i)=>`<option value="${i}">${v[0]}</option>`).join("");const vw=$("#variantWrap");vw.querySelector(".variantChips")?.remove();vw.querySelector("label").firstChild.textContent=cur.c==="VISITKI"?"Тип печати":"Материал / вариант";const useVariantChips=["BANNER","PLENKA_PRINT","VISITKI"].includes(cur.c);$("#variant").classList.toggle("hidden",useVariantChips);if(useVariantChips){const chips=document.createElement("div");chips.className="variantChips";chips.innerHTML=cur.v.map((v,i)=>`<button type="button" class="variantChip ${i===0?"active":""}" data-vi="${i}">${v[0]}</button>`).join("");vw.querySelector("label").appendChild(chips);chips.querySelectorAll(".variantChip").forEach(b=>b.onclick=()=>{$("#variant").value=b.dataset.vi;chips.querySelectorAll(".variantChip").forEach(x=>x.classList.toggle("active",x===b));calc()})}}if(cur.c==="SRA3"){
+function openProduct(i){if(cur&&!$("#form").classList.contains("hidden"))rememberProductDraft();cur=DATA.products[i];editingId=null;$("#save").textContent="Сохранить расчёт";$("#products").classList.add("hidden");$("#form").classList.remove("hidden");$("#backProducts").classList.remove("hidden");$("#category").textContent=DATA.cats[cur.cat];$("#productName").textContent=cur.n;$("#comment").textContent=cur.d||"";$("#variantWrap").classList.toggle("hidden",cur.t==="fixed"||cur.c==="SRA3");$("#sra3Options").classList.toggle("hidden",cur.c!=="SRA3");$("#sra3Summary").classList.toggle("hidden",cur.c!=="SRA3");$("#canvasOptions").classList.toggle("hidden",cur.t!=="fixed");$("#fixedSizeWrap").classList.toggle("hidden",cur.t!=="fixed");$("#canvasPackagingWrap").classList.toggle("hidden",cur.c!=="HOLST");$("#canvasPackaging").checked=false;const quantityField=$("#q").closest("label");if(cur.c==="HOLST"){$("#canvasOptions").appendChild(quantityField)}else{$("#measureControls").appendChild(quantityField)}$("#measureControls").classList.toggle("hidden",cur.c==="HOLST");$("#priceModeWrap").classList.toggle("hidden",!cur.priceModes);priceMode="retail";document.querySelectorAll(".priceMode").forEach(x=>x.classList.toggle("active",x.dataset.mode==="retail"));const noDimensions=["fixed","business","cards"].includes(cur.t);$("#dimensions").classList.toggle("hidden",noDimensions);$("#unitsField").classList.toggle("hidden",noDimensions);$("#measureControls").classList.toggle("quantityOnly",noDimensions);$("#q").parentElement.classList.toggle("hidden",cur.t==="business");if(cur.t==="cards"){$("#q").parentElement.classList.remove("hidden");$("#q").min="120";$("#q").step="30";$("#q").value="120"}else{$("#q").min="1";$("#q").step="1";$("#q").value="1"};if(cur.v){$("#variant").innerHTML=cur.v.map((v,i)=>`<option value="${i}">${v[0]}</option>`).join("");$("#variant").value="0";const vw=$("#variantWrap");vw.querySelector(".variantChips")?.remove();vw.querySelector("label").firstChild.textContent=cur.c==="VISITKI"?"Тип печати":"Материал / вариант";const useVariantChips=["BANNER","PLENKA_PRINT","VISITKI"].includes(cur.c);$("#variant").classList.toggle("hidden",useVariantChips);if(useVariantChips){const chips=document.createElement("div");chips.className="variantChips";chips.innerHTML=cur.v.map((v,i)=>`<button type="button" class="variantChip ${i===0?"active":""}" data-vi="${i}">${v[0]}</button>`).join("");vw.querySelector("label").appendChild(chips);chips.querySelectorAll(".variantChip").forEach(b=>b.onclick=()=>{$("#variant").value=b.dataset.vi;chips.querySelectorAll(".variantChip").forEach(x=>x.classList.toggle("active",x===b));calc()})}}if(cur.c==="SRA3"){
   $("#sraMaterial").value="paper130";
   $("#sraSides").value="single";
   updateSraVariant();
   currentUnit="mm";
   $("#w").value="65";$("#h").value="90";$("#q").value="1";
   $("#w").min="1";$("#h").min="1";$("#w").step="1";$("#h").step="1";
- }else if(prevProduct==="SRA3"){
+ }else{
   currentUnit="m";$("#w").value="1";$("#h").value="1";
   $("#w").min=".01";$("#h").min=".01";$("#w").step=".01";$("#h").step=".01";
  }
  document.querySelector('.unit[data-unit="m"]').classList.toggle("hidden",cur.c==="SRA3");
  refreshUnitControls();
- if(cur.sizes){$("#fixedSize").innerHTML=cur.sizes.map((s,i)=>`<option value="${i}">${s[0]}×${s[1]} см</option>`).join("");$("#fixedSize").value="0";updateCanvasPackagingLabel()}$("#form").classList.toggle("bannerForm",cur.c==="BANNER"||cur.c==="PLENKA_PRINT");let productNote=$("#productNote");if(!productNote){productNote=document.createElement("div");productNote.id="productNote";productNote.className="productNote";$("#services").after(productNote)}productNote.textContent=cur.note||"";productNote.classList.toggle("hidden",!cur.note);$("#designCheck").checked=false;renderServices();calc()}
+ if(cur.sizes){$("#fixedSize").innerHTML=cur.sizes.map((s,i)=>`<option value="${i}">${s[0]}×${s[1]} см</option>`).join("");$("#fixedSize").value="0";updateCanvasPackagingLabel()}$("#form").classList.toggle("bannerForm",cur.c==="BANNER"||cur.c==="PLENKA_PRINT");let productNote=$("#productNote");if(!productNote){productNote=document.createElement("div");productNote.id="productNote";productNote.className="productNote";$("#services").after(productNote)}productNote.textContent=cur.note||"";productNote.classList.toggle("hidden",!cur.note);$("#designCheck").checked=false;
+renderServices();
+restoreProductDraft(productDrafts.get(cur.c));
+closeFileGuide();
+$("#fileGuideText").textContent="Требования к подготовке файла для «"+cur.n+"» будут добавлены позже.";
+$("#fileGuide").classList.remove("hidden");
+calc()}
 function updateCanvasPackagingLabel(){const selected=cur?.sizes?.[+$("#fixedSize").value||0];$("#canvasPackagingPrice").textContent=selected&&cur.c==="HOLST"?"+"+money(selected[4]||0)+" / шт.":""}
 function renderServices(){const box=$("#services");box.innerHTML=(cur.s||[]).map((s,i)=>s[2]==="autoPerimeter"?`<div class="service"><input type="checkbox" data-si="${i}"><span><b>Проклей · ${money(s[1])}/пог. м</b><small>Метраж рассчитывается автоматически по периметру баннера.</small><span class="eyeletResult" data-perimeter-result="${i}"></span></span></div>`:s[2]==="autoEyelets"?`<div class="service eyelet"><input type="checkbox" data-si="${i}"><span><b>Люверсы · ${money(s[1])}/шт.</b><small>Ближайший шаг по каждой стороне с отступом 1,5 см от края. Угловые люверсы учитываются один раз.</small><span class="eyeletResult" data-eyelet-result="${i}"></span></span><label>Желаемый шаг, см<input class="serviceQty" data-qi="${i}" type="number" min="1" step="1" value="20"></label></div>`:`<div class="service"><input type="checkbox" data-si="${i}"><span>${s[0]} · ${money(s[1])}/${s[2]}</span><input class="serviceQty" data-qi="${i}" type="number" min="0" step="1" value="0" placeholder="Количество"></div>`).join("");box.classList.toggle("hidden",!(cur.s||[]).length);box.querySelectorAll("input").forEach(x=>x.addEventListener("input",calc))}
 const EYELET_EDGE_OFFSET_CM=1.5;
@@ -121,7 +187,23 @@ function fmtStep(n){return Number.isInteger(n)?String(n):n.toFixed(1).replace(".
  $("#save").disabled=invalidSra;$("#order").disabled=invalidSra;
  $("#total").textContent=invalidSra?"—":money(base+extra+packaging);
  return{base,extra,packaging,total:base+extra+packaging,sraLayout,valid:!invalidSra}}
-document.querySelectorAll(".priceMode").forEach(b=>b.onclick=()=>{priceMode=b.dataset.mode;document.querySelectorAll(".priceMode").forEach(x=>x.classList.toggle("active",x===b));calc()});document.querySelectorAll(".unit").forEach(b=>b.onclick=()=>{const next=b.dataset.unit;if(next===currentUnit)return;const old=unitFactor();currentUnit=next;const neu=unitFactor();["w","h"].forEach(id=>{const el=$("#"+id);el.value=+(el.value*old/neu).toFixed(currentUnit==="m"?3:currentUnit==="cm"?1:0)});refreshUnitControls();calc()});["w","h","q","variant"].forEach(id=>$("#"+id).addEventListener("input",calc));["sraMaterial","sraSides"].forEach(id=>$("#"+id).addEventListener("change",()=>{updateSraVariant();calc()}));document.querySelectorAll(".sraSideChip").forEach(button=>button.addEventListener("click",()=>{if(button.disabled||cur?.c!=="SRA3")return;$("#sraSides").value=button.dataset.side;updateSraVariant();calc()}));$("#fixedSize").addEventListener("change",()=>{updateCanvasPackagingLabel();calc()});$("#canvasPackaging").addEventListener("change",calc);$("#designCheck").onchange=calc;$("#backProducts").onclick=()=>{$("#form").classList.add("hidden");$("#products").classList.remove("hidden");$("#backProducts").classList.add("hidden")};
+document.querySelectorAll(".priceMode").forEach(b=>b.onclick=()=>{priceMode=b.dataset.mode;document.querySelectorAll(".priceMode").forEach(x=>x.classList.toggle("active",x===b));calc()});document.querySelectorAll(".unit").forEach(b=>b.onclick=()=>{const next=b.dataset.unit;if(next===currentUnit)return;const old=unitFactor();currentUnit=next;const neu=unitFactor();["w","h"].forEach(id=>{const el=$("#"+id);el.value=+(el.value*old/neu).toFixed(currentUnit==="m"?3:currentUnit==="cm"?1:0)});refreshUnitControls();calc()});["w","h","q","variant"].forEach(id=>$("#"+id).addEventListener("input",calc));["sraMaterial","sraSides"].forEach(id=>$("#"+id).addEventListener("change",()=>{updateSraVariant();calc()}));document.querySelectorAll(".sraSideChip").forEach(button=>button.addEventListener("click",()=>{if(button.disabled||cur?.c!=="SRA3")return;$("#sraSides").value=button.dataset.side;updateSraVariant();calc()}));$("#fixedSize").addEventListener("change",()=>{updateCanvasPackagingLabel();calc()});$("#canvasPackaging").addEventListener("change",calc);$("#designCheck").onchange=calc;$("#backProducts").onclick=()=>{
+  rememberProductDraft();
+  closeFileGuide();
+  $("#fileGuide").classList.add("hidden");
+  $("#form").classList.add("hidden");
+  $("#products").classList.remove("hidden");
+  $("#backProducts").classList.add("hidden");
+};
+$("#fileGuideButton").addEventListener("click",()=>{
+  const content=$("#fileGuideContent");
+  const visible=content.classList.toggle("hidden")===false;
+  $("#fileGuideButton").setAttribute("aria-expanded",String(visible));
+});
+document.addEventListener("click",e=>{
+  if(!$("#fileGuide").contains(e.target))closeFileGuide();
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeFileGuide()});
 function getSaved(){try{const a=JSON.parse(localStorage.getItem("luxprint-calcs")||"[]");if(!Array.isArray(a))return[];let updated=false;a.forEach(x=>{if(x&&x.designPricingVersion!==2){if(x.design&&Number.isFinite(+x.designPrice)&&+x.designPrice>0)x.total=Math.max(0,(+x.total||0)-(+x.designPrice));delete x.designPrice;x.designPricingVersion=2;updated=true}});if(updated)localStorage.setItem("luxprint-calcs",JSON.stringify(a));return a}catch{return[]}}
 function setSaved(x){localStorage.setItem("luxprint-calcs",JSON.stringify(x));renderSaved()}
 function snapshot(){const r=calc(),idx=+$("#variant").value||0,si=+$("#fixedSize").value||0,services=(cur.s||[]).map((s,i)=>({name:s[0],checked:!!$('[data-si="'+i+'"]')?.checked,qty:+$('[data-qi="'+i+'"]')?.value||0,details:$('[data-eyelet-result="'+i+'"]')?.textContent||""}));return{id:Date.now(),product:cur.c,name:cur.n,date:new Date().toLocaleDateString("ru-RU"),priceMode,unit:currentUnit,variant:idx,variantName:cur.v?.[idx]?.[0]||"",fixedSize:si,sizeName:cur.sizes?.[si]?cur.sizes[si][0]+"×"+cur.sizes[si][1]+" см":"",w:+$("#w").value||0,h:+$("#h").value||0,q:+$("#q").value||1,design:!!$("#designCheck").checked,designPricingVersion:2,sra3Layout:cur.c==="SRA3"?r.sraLayout:null,packaging:cur.c==="HOLST"&&$("#canvasPackaging").checked,packagingUnitPrice:cur.c==="HOLST"&&$("#canvasPackaging").checked?(cur.sizes[si]?.[4]||0):0,services,total:r.total}}

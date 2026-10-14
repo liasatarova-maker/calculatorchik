@@ -41,5 +41,13 @@
 <div id="services" class="services"></div>
 <div class="design"><label><input id="designCheck" type="checkbox"> Нужен дизайн</label><p class="designHint">Стоимость дизайна рассчитывается менеджером индивидуально в зависимости от сложности.</p></div>
 <div class="receipt"><div><span>Изделие</span><b id="basePrice">0 ₽</b></div><div id="serviceLine" class="hidden"><span>Доп. услуги</span><b id="servicePrice">0 ₽</b></div><div id="packagingLine" class="hidden"><span>Упаковка</span><b id="packagingOut">0 ₽</b></div><hr><div class="total"><span>Предварительно</span><strong id="total">0 ₽</strong></div></div>
-<div class="actions"><button id="save" class="secondary">Сохранить расчёт</button><button id="order" class="primary">Оформить заявку →</button></div><p class="note">Финальную стоимость менеджер подтвердит после проверки параметров.</p></div></section></section>
+<div class="actions"><button id="save" class="secondary">Сохранить расчёт</button><button id="order" class="primary">Оформить заявку →</button></div><p class="note">Финальную стоимость менеджер подтвердит после проверки параметров.</p></div><aside id="fileGuide" class="fileGuide hidden">
+  <button id="fileGuideButton" class="fileGuideButton" type="button" aria-controls="fileGuideContent" aria-expanded="false">
+    <span class="fileGuideIcon" aria-hidden="true">?</span><span>Как подготовить макет к печати</span><span class="fileGuideChevron" aria-hidden="true">⌄</span>
+  </button>
+  <div id="fileGuideContent" class="fileGuideContent hidden" role="region" aria-label="Требования к макету">
+    <strong>Подготовка макета</strong>
+    <p id="fileGuideText">Требования к файлу будут добавлены позже.</p>
+  </div>
+</aside></section></section>
 <section id="savedView" class="hidden saved"><div class="savedHead"><div><span class="pill">сохранённое</span><h1>Мои расчёты</h1><p>Здесь хранятся расчёты на этом устройстве.</p></div></div><div id="savedList"></div><div id="savedSendBar" class="savedSendBar hidden"><div><span>Общая сумма</span><strong id="savedGrandTotal">0 ₽</strong></div><button id="sendSaved" class="primary">Отправить все расчёты →</button></div></section></main><footer>ЛюксПринт · дизайнеры и печатники в цеху</footer><script src="app.js"></script></body></html>
