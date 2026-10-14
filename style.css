@@ -272,7 +272,7 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 /* Canvas controls: size and packaging next to one another */
 .canvasOptions {
   display: grid;
-  grid-template-columns: minmax(0, 220px) minmax(0, 300px);
+  grid-template-columns: minmax(0, 220px) minmax(0, 300px) minmax(0, 132px);
   gap: 12px;
   align-items: end;
   width: fit-content;
@@ -280,7 +280,24 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   margin: 16px 0 0;
 }
 .canvasOptions #fixedSizeWrap,
-.canvasOptions .canvasPackagingWrap { min-width: 0; }
+.canvasOptions .canvasPackagingWrap,
+.canvasOptions .qty { min-width: 0; }
+.canvasOptions .qty {
+  display: block;
+  width: 132px;
+  max-width: 100%;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.35;
+  font-weight: 600;
+  color: #596680;
+}
+#form .canvasOptions .qty input {
+  display: block;
+  width: 100%;
+  height: var(--calc-field-height);
+  margin-top: 8px;
+}
 .form .canvasOptions #fixedSizeWrap>label {
   display: grid;
   gap: 8px;
@@ -328,12 +345,20 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   font-weight: 600;
   white-space: nowrap;
 }
+@media(max-width: 760px) {
+  .canvasOptions {
+    grid-template-columns: minmax(0, 220px) minmax(0, 300px);
+    width: min(532px, 100%);
+  }
+  .canvasOptions .qty { grid-column: 1; }
+}
 @media(max-width: 620px) {
   .canvasOptions {
     grid-template-columns: minmax(0, 220px);
     width: min(300px, 100%);
     gap: 12px;
   }
+  .canvasOptions .qty { grid-column: 1; }
   #form .canvasOptions #fixedSizeWrap select { max-width: 100%; }
   .canvasPackagingToggle { flex-wrap: wrap; }
   .canvasPackagingToggle b { margin-left: 27px; }
