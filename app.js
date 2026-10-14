@@ -97,14 +97,14 @@ function restoreProductDraft(draft){
   const variant=Number(draft.variant);
   if(cur.v&&Number.isInteger(variant)&&variant>=0&&variant<cur.v.length){
     $("#variant").value=String(variant);
-    $(".variantChip").forEach(b=>b.classList.toggle("active",+b.dataset.vi===variant));
+    document.querySelectorAll(".variantChip").forEach(b=>b.classList.toggle("active",+b.dataset.vi===variant));
     if(cur.c==="SRA3")restoreSraVariant(variant);
   }
   if(cur.sizes&&draft.fixedSize!=null&&cur.sizes[+draft.fixedSize]){
     $("#fixedSize").value=String(draft.fixedSize);
   }
   priceMode=cur.priceModes&&draft.priceMode==="wholesale"?"wholesale":"retail";
-  $(".priceMode").forEach(b=>b.classList.toggle("active",b.dataset.mode===priceMode));
+  document.querySelectorAll(".priceMode").forEach(b=>b.classList.toggle("active",b.dataset.mode===priceMode));
   currentUnit=(cur.c==="SRA3"
     ?(["mm","cm"].includes(draft.unit)?draft.unit:"mm")
     :(["m","cm","mm"].includes(draft.unit)?draft.unit:"m"));
