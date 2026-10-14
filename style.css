@@ -363,3 +363,28 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   .canvasPackagingToggle { flex-wrap: wrap; }
   .canvasPackagingToggle b { margin-left: 27px; }
 }
+
+/* SRA3 sheet printing selectors and yield */
+.sra3Options{margin-top:16px;max-width:540px}
+.sra3Selectors{
+  display:grid;grid-template-columns:minmax(0,280px) minmax(0,200px);gap:12px;
+}
+.sra3Selectors label{display:grid;gap:8px;color:#596680;font-size:13px;font-weight:600}
+#form .sra3Selectors select{width:100%;min-width:0}
+#form .sra3Selectors select:disabled{color:#71809b;background:#f4f6fb;opacity:1}
+.sraSidesHint{margin:8px 0 0;font-size:12px;color:#7c89a0;line-height:1.4}
+.sra3Summary{
+  max-width:570px;
+  margin-top:16px;padding:14px 16px;
+  border:1px solid #dae4f7;border-radius:14px;background:#f6f9ff;
+}
+.sra3ResultStats{display:flex;gap:24px;flex-wrap:wrap}
+.sra3ResultStats>div{display:grid;gap:5px}
+.sra3ResultStats span{font-size:12px;color:#75839d}
+.sra3ResultStats strong{font-size:23px;color:#2459e8;line-height:1.25}
+.sra3Summary p{margin:9px 0 0;color:#647797;font-size:12px;line-height:1.5}
+#form #save:disabled,#form #order:disabled{opacity:.48;cursor:not-allowed}
+@media(max-width:560px){
+ .sra3Selectors{grid-template-columns:minmax(0,1fr)}
+ .sra3Options{max-width:280px}
+}
