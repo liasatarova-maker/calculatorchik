@@ -626,3 +626,44 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   #form .bannerExtraInfo{width:100%}
   #form .bannerFactStep{margin-left:30px}
 }
+
+/* Banner finishing: one compact row for both service checkboxes and spacing */
+#form .bannerExtrasInline{
+  display:grid;
+  grid-template-columns:minmax(125px,0.65fr) minmax(190px,1.5fr) 148px;
+  align-items:center;
+  column-gap:18px;
+  padding:8px 16px 13px;
+}
+#form .bannerExtrasHeading{padding:11px 16px 0}
+#form .bannerExtrasInline>.bannerExtraCheck{align-self:center}
+#form .bannerExtrasInline .bannerExtraInfo{align-self:center;min-width:0}
+#form .bannerExtrasInline .bannerFactStep{
+  margin:5px 0 0 30px;
+  line-height:1.35;
+}
+#form .bannerExtrasInline .bannerDesiredStep{
+  width:148px;
+  max-width:100%;
+  flex:initial;
+  justify-self:end;
+}
+#form .bannerExtrasInline .bannerDesiredStep input[type=number]{
+  margin-top:5px;
+}
+@media(max-width:680px){
+  #form .bannerExtrasInline{
+    grid-template-columns:minmax(108px,1fr) minmax(125px,1fr);
+    row-gap:10px;
+  }
+  #form .bannerExtrasInline .bannerDesiredStep{
+    grid-column:2;
+    justify-self:start;
+  }
+}
+@media(max-width:380px){
+  #form .bannerExtrasInline{column-gap:8px;padding:10px 12px 12px}
+  #form .bannerExtrasInline .bannerDesiredStep{width:130px}
+  #form .bannerExtrasInline .bannerExtraCheck{gap:8px;font-size:14px}
+  #form .bannerExtrasInline .bannerFactStep{margin-left:26px}
+}
