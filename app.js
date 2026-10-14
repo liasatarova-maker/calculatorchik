@@ -35,6 +35,14 @@ function updateSraVariant(){
   const doubleAllowed=material==="paper130"||material==="paper270";
   $("#sraSides").disabled=!doubleAllowed;
   if(!doubleAllowed)$("#sraSides").value="single";
+  document.querySelectorAll(".sraSideChip").forEach(button=>{
+    const unavailable=button.dataset.side==="double"&&!doubleAllowed;
+    button.disabled=unavailable;
+    button.classList.toggle("hidden",unavailable);
+    const active=button.dataset.side===$("#sraSides").value;
+    button.classList.toggle("active",active);
+    button.setAttribute("aria-pressed",String(active));
+  });
   $("#sraSidesHint").textContent=doubleAllowed
     ?"Для бумаги возможна односторонняя и двусторонняя печать."
     :"Для этого материала доступна только односторонняя печать.";
@@ -113,7 +121,7 @@ function fmtStep(n){return Number.isInteger(n)?String(n):n.toFixed(1).replace(".
  $("#save").disabled=invalidSra;$("#order").disabled=invalidSra;
  $("#total").textContent=invalidSra?"—":money(base+extra+packaging);
  return{base,extra,packaging,total:base+extra+packaging,sraLayout,valid:!invalidSra}}
-document.querySelectorAll(".priceMode").forEach(b=>b.onclick=()=>{priceMode=b.dataset.mode;document.querySelectorAll(".priceMode").forEach(x=>x.classList.toggle("active",x===b));calc()});document.querySelectorAll(".unit").forEach(b=>b.onclick=()=>{const next=b.dataset.unit;if(next===currentUnit)return;const old=unitFactor();currentUnit=next;const neu=unitFactor();["w","h"].forEach(id=>{const el=$("#"+id);el.value=+(el.value*old/neu).toFixed(currentUnit==="m"?3:currentUnit==="cm"?1:0)});refreshUnitControls();calc()});["w","h","q","variant"].forEach(id=>$("#"+id).addEventListener("input",calc));["sraMaterial","sraSides"].forEach(id=>$("#"+id).addEventListener("change",()=>{updateSraVariant();calc()}));$("#fixedSize").addEventListener("change",()=>{updateCanvasPackagingLabel();calc()});$("#canvasPackaging").addEventListener("change",calc);$("#designCheck").onchange=calc;$("#backProducts").onclick=()=>{$("#form").classList.add("hidden");$("#products").classList.remove("hidden");$("#backProducts").classList.add("hidden")};
+document.querySelectorAll(".priceMode").forEach(b=>b.onclick=()=>{priceMode=b.dataset.mode;document.querySelectorAll(".priceMode").forEach(x=>x.classList.toggle("active",x===b));calc()});document.querySelectorAll(".unit").forEach(b=>b.onclick=()=>{const next=b.dataset.unit;if(next===currentUnit)return;const old=unitFactor();currentUnit=next;const neu=unitFactor();["w","h"].forEach(id=>{const el=$("#"+id);el.value=+(el.value*old/neu).toFixed(currentUnit==="m"?3:currentUnit==="cm"?1:0)});refreshUnitControls();calc()});["w","h","q","variant"].forEach(id=>$("#"+id).addEventListener("input",calc));["sraMaterial","sraSides"].forEach(id=>$("#"+id).addEventListener("change",()=>{updateSraVariant();calc()}));document.querySelectorAll(".sraSideChip").forEach(button=>button.addEventListener("click",()=>{if(button.disabled||cur?.c!=="SRA3")return;$("#sraSides").value=button.dataset.side;updateSraVariant();calc()}));$("#fixedSize").addEventListener("change",()=>{updateCanvasPackagingLabel();calc()});$("#canvasPackaging").addEventListener("change",calc);$("#designCheck").onchange=calc;$("#backProducts").onclick=()=>{$("#form").classList.add("hidden");$("#products").classList.remove("hidden");$("#backProducts").classList.add("hidden")};
 function getSaved(){try{const a=JSON.parse(localStorage.getItem("luxprint-calcs")||"[]");if(!Array.isArray(a))return[];let updated=false;a.forEach(x=>{if(x&&x.designPricingVersion!==2){if(x.design&&Number.isFinite(+x.designPrice)&&+x.designPrice>0)x.total=Math.max(0,(+x.total||0)-(+x.designPrice));delete x.designPrice;x.designPricingVersion=2;updated=true}});if(updated)localStorage.setItem("luxprint-calcs",JSON.stringify(a));return a}catch{return[]}}
 function setSaved(x){localStorage.setItem("luxprint-calcs",JSON.stringify(x));renderSaved()}
 function snapshot(){const r=calc(),idx=+$("#variant").value||0,si=+$("#fixedSize").value||0,services=(cur.s||[]).map((s,i)=>({name:s[0],checked:!!$('[data-si="'+i+'"]')?.checked,qty:+$('[data-qi="'+i+'"]')?.value||0,details:$('[data-eyelet-result="'+i+'"]')?.textContent||""}));return{id:Date.now(),product:cur.c,name:cur.n,date:new Date().toLocaleDateString("ru-RU"),priceMode,unit:currentUnit,variant:idx,variantName:cur.v?.[idx]?.[0]||"",fixedSize:si,sizeName:cur.sizes?.[si]?cur.sizes[si][0]+"×"+cur.sizes[si][1]+" см":"",w:+$("#w").value||0,h:+$("#h").value||0,q:+$("#q").value||1,design:!!$("#designCheck").checked,designPricingVersion:2,sra3Layout:cur.c==="SRA3"?r.sraLayout:null,packaging:cur.c==="HOLST"&&$("#canvasPackaging").checked,packagingUnitPrice:cur.c==="HOLST"&&$("#canvasPackaging").checked?(cur.sizes[si]?.[4]||0):0,services,total:r.total}}

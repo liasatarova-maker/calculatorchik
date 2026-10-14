@@ -364,27 +364,115 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   .canvasPackagingToggle b { margin-left: 27px; }
 }
 
-/* SRA3 sheet printing selectors and yield */
-.sra3Options{margin-top:16px;max-width:540px}
+
+/* Uniform dropdown arrow and spacing in every calculator product */
+#form select:not(.hidden){
+  -webkit-appearance:none;
+  appearance:none;
+  padding-right:43px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234e6388' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-size:16px 16px;
+  background-repeat:no-repeat;
+  background-position:right 15px center;
+}
+/* SRA3: shorter material dropdown, printing sides as chips */
+.sra3Options{margin-top:16px;max-width:640px}
 .sra3Selectors{
-  display:grid;grid-template-columns:minmax(0,280px) minmax(0,200px);gap:12px;
+  display:grid;
+  grid-template-columns:minmax(0,280px) minmax(0,316px);
+  align-items:end;
+  gap:12px;
 }
-.sra3Selectors label{display:grid;gap:8px;color:#596680;font-size:13px;font-weight:600}
+.sra3Selectors>label,.sraSidesField{
+  display:grid;
+  align-content:start;
+  gap:8px;
+  min-width:0;
+  color:#596680;
+  font-size:13px;
+  font-weight:600;
+}
 #form .sra3Selectors select{width:100%;min-width:0}
-#form .sra3Selectors select:disabled{color:#71809b;background:#f4f6fb;opacity:1}
-.sraSidesHint{margin:8px 0 0;font-size:12px;color:#7c89a0;line-height:1.4}
-.sra3Summary{
-  max-width:570px;
-  margin-top:16px;padding:14px 16px;
-  border:1px solid #dae4f7;border-radius:14px;background:#f6f9ff;
+.sraSideChips{display:flex;align-items:stretch;gap:8px;min-height:var(--calc-field-height)}
+.sraSideChip{
+  flex:1 1 auto;
+  min-width:0;
+  padding:9px 12px;
+  border-radius:var(--calc-field-radius);
+  border:1px solid #dfe5f0;
+  color:#65738c;
+  background:#f8faff;
+  font-size:13px;
+  font-weight:600;
+  white-space:nowrap;
+  cursor:pointer;
 }
-.sra3ResultStats{display:flex;gap:24px;flex-wrap:wrap}
-.sra3ResultStats>div{display:grid;gap:5px}
-.sra3ResultStats span{font-size:12px;color:#75839d}
-.sra3ResultStats strong{font-size:23px;color:#2459e8;line-height:1.25}
-.sra3Summary p{margin:9px 0 0;color:#647797;font-size:12px;line-height:1.5}
+.sraSideChip:hover:not(:disabled){border-color:#a8b9e8;color:#2459e8}
+.sraSideChip.active{
+  border-color:#2459e8;
+  background:#edf3ff;
+  color:#2459e8;
+  box-shadow:0 0 0 2px #2459e80d;
+}
+.sraSideChip:focus-visible{outline:2px solid #2459e8;outline-offset:3px}
+.sraSideChip:disabled{cursor:not-allowed;opacity:.45}
+.sraSidesHint{margin:9px 0 0;font-size:12px;color:#7c89a0;line-height:1.4}
+
+/* Compact horizontal yield readout with values to the right */
+.sra3Summary{
+  max-width:680px;
+  margin-top:16px;
+  padding:14px 16px;
+  border:1px solid #dae4f7;
+  border-radius:14px;
+  background:#f6f9ff;
+}
+.sra3ResultStats{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:18px;
+  align-items:stretch;
+}
+.sra3ResultStats>div{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  min-width:0;
+}
+.sra3ResultStats>div+div{border-left:1px solid #dce5f5;padding-left:18px}
+.sra3ResultStats span{font-size:12px;color:#75839d;line-height:1.35}
+.sra3ResultStats strong{
+  flex-shrink:0;
+  font-size:23px;
+  color:#2459e8;
+  line-height:1.25;
+  white-space:nowrap;
+  font-variant-numeric:tabular-nums;
+}
+.sra3Summary p{
+  margin:12px 0 0;
+  padding-top:10px;
+  border-top:1px solid #e2e9f7;
+  color:#647797;
+  font-size:12px;
+  line-height:1.5;
+}
 #form #save:disabled,#form #order:disabled{opacity:.48;cursor:not-allowed}
-@media(max-width:560px){
- .sra3Selectors{grid-template-columns:minmax(0,1fr)}
- .sra3Options{max-width:280px}
+@media(max-width:680px){
+  .sra3Selectors{grid-template-columns:minmax(0,1fr);gap:14px}
+  .sra3Selectors>label{max-width:280px}
+  .sraSidesField{max-width:316px}
+}
+@media(max-width:580px){
+  .sra3ResultStats{grid-template-columns:minmax(0,1fr);gap:10px}
+  .sra3ResultStats>div+div{
+    border-left:0;
+    border-top:1px solid #e2e9f7;
+    padding:10px 0 0;
+  }
+  .sra3ResultStats strong{font-size:21px}
+}
+@media(max-width:380px){
+  .sraSideChips{flex-wrap:wrap}
 }

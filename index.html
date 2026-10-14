@@ -15,12 +15,17 @@
         <option value="film">Плёнка</option>
       </select>
     </label>
-    <label>Тип печати
-      <select id="sraSides">
+    <div class="sraSidesField">
+      <span id="sraSideLabel">Тип печати</span>
+      <select id="sraSides" class="hidden" aria-hidden="true" tabindex="-1">
         <option value="single">Односторонняя</option>
         <option value="double">Двусторонняя</option>
       </select>
-    </label>
+      <div class="sraSideChips" role="group" aria-labelledby="sraSideLabel">
+        <button type="button" class="sraSideChip active" data-side="single" aria-pressed="true">Односторонняя</button>
+        <button type="button" class="sraSideChip" data-side="double" aria-pressed="false">Двусторонняя</button>
+      </div>
+    </div>
   </div>
   <p id="sraSidesHint" class="sraSidesHint"></p>
 </div>
