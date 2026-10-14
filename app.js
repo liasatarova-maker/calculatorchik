@@ -54,6 +54,11 @@ function refreshUnitControls(){
     b.setAttribute("aria-pressed",active?"true":"false");
   });
   document.querySelectorAll(".unitLabel").forEach(n=>n.textContent=currentUnit);
+  if(cur?.c==="SRA3"){
+    const minimum=currentUnit==="cm"?"0.1":"1";
+    const step=currentUnit==="cm"?"0.1":"1";
+    ["w","h"].forEach(id=>{const el=$("#"+id);el.min=minimum;el.step=step});
+  }
 }
 
 function renderProducts(){$("#products").innerHTML=DATA.products.map((p,i)=>`<button class="product" data-i="${i}"><b>${p.n}</b><em>${DATA.cats[p.cat]}</em></button>`).join("");$$(".product").forEach(b=>b.onclick=()=>openProduct(+b.dataset.i))}
