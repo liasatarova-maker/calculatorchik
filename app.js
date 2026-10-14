@@ -156,15 +156,17 @@ function renderServices(){
   if(cur.c==="BANNER"){
     box.innerHTML=`<div class="bannerExtras">
       <div class="bannerExtrasHeading">Дополнительная обработка</div>
-      <div class="bannerExtrasInline">
-        <label class="bannerExtraCheck"><input type="checkbox" data-si="0"><span>Проклей</span></label>
-        <div class="bannerExtraInfo">
+      <div class="bannerExtrasMain">
+        <div class="bannerExtrasToggles">
+          <label class="bannerExtraCheck"><input type="checkbox" data-si="0"><span>Проклей</span></label>
           <label class="bannerExtraCheck"><input type="checkbox" data-si="1"><span>Люверсы</span></label>
-          <span class="bannerFactStep hidden" data-eyelet-result="1" aria-live="polite"></span>
         </div>
-        <label class="bannerDesiredStep">Желаемый шаг, см
+        <label class="bannerDesiredStep"><span>Желаемый шаг, см</span>
           <input class="serviceQty" data-qi="1" type="number" min="1" step="1" value="20">
         </label>
+      </div>
+      <div class="bannerFactLine" aria-live="polite">
+        <span class="bannerFactStep hidden" data-eyelet-result="1"></span>
       </div>
     </div>`;
   }else{
