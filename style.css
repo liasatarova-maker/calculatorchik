@@ -223,3 +223,69 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   font-weight:400;
   line-height:1.45;
 }
+
+/* Canvas size and optional packaging on one line */
+.canvasOptions{
+  display:grid;
+  grid-template-columns:minmax(0,380px) minmax(0,280px);
+  align-items:end;
+  gap:16px;
+  max-width:680px;
+  margin:16px 0 0;
+}
+.canvasOptions #fixedSizeWrap,
+.canvasOptions .canvasPackagingWrap{min-width:0}
+.form .canvasOptions #fixedSizeWrap>label{
+  display:grid;
+  gap:8px;
+  margin:0;
+  font-size:13px;
+  font-weight:600;
+  color:#596680;
+}
+.canvasOptions #fixedSizeWrap select{
+  width:100%;
+  height:48px;
+  min-height:48px;
+  padding:8px 14px;
+}
+.canvasPackagingWrap{display:grid;gap:8px}
+.canvasOptionTitle{
+  color:#596680;
+  font-size:13px;
+  font-weight:600;
+  line-height:1.35;
+}
+.canvasPackagingToggle{
+  display:flex;
+  align-items:center;
+  min-height:48px;
+  gap:8px;
+  border:1px solid #dfe5f0;
+  background:#f8faff;
+  border-radius:14px;
+  padding:9px 12px;
+  color:#17284e;
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+}
+.canvasPackagingToggle:focus-within{border-color:#2459e8;box-shadow:0 0 0 3px #2459e812}
+.canvasPackagingToggle input[type=checkbox]{
+  width:18px;height:18px;flex:0 0 18px;margin:0;
+}
+.canvasPackagingToggle span{white-space:nowrap}
+.canvasPackagingToggle b{
+  margin-left:auto;
+  white-space:nowrap;
+  font-size:12px;
+  font-weight:600;
+  color:#4e70ad;
+}
+@media(max-width:700px){
+  .canvasOptions{grid-template-columns:minmax(0,1fr);max-width:480px;gap:12px}
+}
+@media(max-width:400px){
+  .canvasPackagingToggle{flex-wrap:wrap}
+  .canvasPackagingToggle b{margin-left:26px}
+}
