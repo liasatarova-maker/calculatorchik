@@ -157,13 +157,15 @@ function renderServices(){
     box.innerHTML=`<div class="bannerExtras">
       <div class="bannerExtrasHeading">Дополнительная обработка</div>
       <div class="bannerExtrasMain">
-        <div class="bannerExtrasToggles">
+        <div class="bannerExtraColumn bannerExtraGlue">
           <label class="bannerExtraCheck"><input type="checkbox" data-si="0"><span>Проклей</span></label>
-          <label class="bannerExtraCheck"><input type="checkbox" data-si="1"><span>Люверсы</span></label>
         </div>
-        <label class="bannerDesiredStep"><span>Желаемый шаг, см</span>
-          <input class="serviceQty" data-qi="1" type="number" min="1" step="1" value="20">
-        </label>
+        <div class="bannerExtraColumn bannerExtraEyelets">
+          <label class="bannerExtraCheck"><input type="checkbox" data-si="1"><span>Люверсы</span></label>
+          <label class="bannerDesiredStep"><span>Желаемый шаг, см</span>
+            <input class="serviceQty" data-qi="1" type="number" min="1" step="1" value="20">
+          </label>
+        </div>
       </div>
       <div class="bannerFactLine" aria-live="polite">
         <span class="bannerFactStep hidden" data-eyelet-result="1"></span>
