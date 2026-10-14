@@ -156,10 +156,8 @@ function renderServices(){
   if(cur.c==="BANNER"){
     box.innerHTML=`<div class="bannerExtras">
       <div class="bannerExtrasHeading">Дополнительная обработка</div>
-      <div class="bannerExtraRow">
+      <div class="bannerExtrasInline">
         <label class="bannerExtraCheck"><input type="checkbox" data-si="0"><span>Проклей</span></label>
-      </div>
-      <div class="bannerExtraRow bannerExtraEyelets">
         <div class="bannerExtraInfo">
           <label class="bannerExtraCheck"><input type="checkbox" data-si="1"><span>Люверсы</span></label>
           <span class="bannerFactStep hidden" data-eyelet-result="1" aria-live="polite"></span>
