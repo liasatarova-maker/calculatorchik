@@ -553,46 +553,45 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   .fileGuideButton{max-width:none;width:100%}
 }
 
-/* Banner finishing: divided into two columns, with stable factual spacing below.
-   The dimensions of the control row are independent of eyelet results. */
+/* Compact banner services; the result appears in a slim footer only when needed. */
 #form .bannerExtras{
   min-width:0;
-  padding:14px 17px 11px;
+  padding:10px 14px;
   border:1px solid #dae4f7;
   border-radius:var(--calc-field-radius);
   background:#f6f9ff;
 }
 #form .bannerExtrasHeading{
-  margin:0 0 11px;
+  margin:0 0 6px;
   color:#7b89a2;
   font-size:12px;
-  line-height:1.35;
+  line-height:1.3;
   font-weight:600;
 }
 #form .bannerExtrasMain{
   display:grid;
-  grid-template-columns:minmax(0,0.85fr) minmax(0,1.35fr);
-  align-items:stretch;
-  min-height:56px;
+  grid-template-columns:minmax(0,.78fr) minmax(0,1.45fr);
+  align-items:center;
+  min-height:40px;
 }
 #form .bannerExtraColumn{
-  min-width:0;
   display:flex;
   align-items:center;
+  min-width:0;
 }
-#form .bannerExtraGlue{padding:5px 18px 5px 0}
+#form .bannerExtraGlue{padding:0 12px 0 0}
 #form .bannerExtraEyelets{
-  gap:16px;
-  justify-content:space-between;
-  padding:5px 0 5px 22px;
   border-left:1px solid #dce5f5;
+  padding:0 0 0 17px;
+  justify-content:space-between;
+  gap:10px;
 }
 #form .bannerExtraCheck{
   display:inline-flex;
   align-items:center;
   gap:9px;
   color:#17284e;
-  font-size:15px;
+  font-size:14px;
   font-weight:700;
   line-height:1.3;
   white-space:nowrap;
@@ -612,34 +611,34 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 }
 #form .bannerDesiredStep{
   display:flex;
-  flex:0 0 130px;
-  flex-direction:column;
-  align-items:flex-start;
-  gap:5px;
+  flex:0 1 auto;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-end;
+  gap:9px;
   min-width:0;
   margin:0;
   color:#63738f;
   font-size:12px;
   font-weight:600;
-  line-height:1.35;
+  line-height:1.3;
+  white-space:nowrap;
 }
 #form .bannerDesiredStep input[type=number]{
   display:block;
-  width:94px;
-  max-width:100%;
-  height:42px;
-  min-height:42px;
+  width:78px;
+  flex:0 0 78px;
+  height:38px;
+  min-height:38px;
+  padding:6px 9px;
   margin:0;
-  padding:8px 11px;
-  font-size:15px;
+  font-size:14px;
 }
 #form .bannerFactLine{
-  display:flex;
-  align-items:center;
-  min-height:29px;
-  margin-top:12px;
-  padding-top:9px;
   border-top:1px solid #e1e8f6;
+  margin-top:9px;
+  padding-top:7px;
+  line-height:1.35;
 }
 #form .bannerFactStep{
   display:block;
@@ -655,15 +654,25 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 #form #bannerEyeletLine span{min-width:0}
 #form #bannerPerimeterPrice,
 #form #bannerEyeletPrice{white-space:nowrap}
-@media(max-width:600px){
-  #form .bannerExtrasMain{grid-template-columns:minmax(0,0.65fr) minmax(0,1.35fr)}
-  #form .bannerExtraEyelets{gap:10px;padding-left:15px;flex-wrap:wrap}
-  #form .bannerDesiredStep{flex-basis:116px}
+@media(max-width:670px){
+  #form .bannerExtrasMain{
+    grid-template-columns:minmax(0,120px) minmax(0,1fr);
+  }
+  #form .bannerExtraEyelets{padding-left:12px;flex-wrap:wrap}
+  #form .bannerDesiredStep{justify-content:flex-start}
 }
-@media(max-width:390px){
-  #form .bannerExtras{padding:12px 13px 10px}
-  #form .bannerExtrasMain{grid-template-columns:minmax(0,0.7fr) minmax(0,1.3fr)}
-  #form .bannerExtraCheck{gap:7px;font-size:14px}
-  #form .bannerExtraEyelets{padding-left:12px}
-  #form .bannerDesiredStep{flex-basis:100%}
+@media(max-width:470px){
+  #form .bannerExtras{padding:10px 12px}
+  #form .bannerExtraCheck{font-size:13px;gap:7px}
+  #form .bannerDesiredStep{gap:7px;font-size:11px}
+  #form .bannerDesiredStep input[type=number]{width:70px;flex-basis:70px}
+}
+@media(max-width:370px){
+  #form .bannerExtrasMain{grid-template-columns:minmax(0,1fr)}
+  #form .bannerExtraEyelets{
+    border-left:0;
+    border-top:1px solid #e1e8f6;
+    padding:8px 0 0;
+    margin-top:8px;
+  }
 }
