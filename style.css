@@ -376,10 +376,10 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   background-position:right 15px center;
 }
 /* SRA3: shorter material dropdown, printing sides as chips */
-.sra3Options{margin-top:16px;max-width:640px}
+.sra3Options{margin-top:16px;width:100%;max-width:none}
 .sra3Selectors{
   display:grid;
-  grid-template-columns:minmax(0,280px) minmax(0,316px);
+  grid-template-columns:minmax(0,0.36fr) minmax(0,0.64fr);
   align-items:end;
   gap:12px;
 }
@@ -420,7 +420,8 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 
 /* Compact horizontal yield readout with values to the right */
 .sra3Summary{
-  max-width:680px;
+  width:100%;
+  max-width:none;
   margin-top:16px;
   padding:14px 16px;
   border:1px solid #dae4f7;
@@ -461,8 +462,8 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 #form #save:disabled,#form #order:disabled{opacity:.48;cursor:not-allowed}
 @media(max-width:680px){
   .sra3Selectors{grid-template-columns:minmax(0,1fr);gap:14px}
-  .sra3Selectors>label{max-width:280px}
-  .sraSidesField{max-width:316px}
+  .sra3Selectors>label{max-width:none}
+  .sraSidesField{max-width:none}
 }
 @media(max-width:580px){
   .sra3ResultStats{grid-template-columns:minmax(0,1fr);gap:10px}
