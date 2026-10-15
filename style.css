@@ -1044,6 +1044,10 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   white-space:nowrap;
   min-width:0;
 }
+/* Optical breathing room for the guide's chevron, without changing button width. */
+.fileGuide.fileGuideWithSpecs .fileGuideChevron{
+  margin-right:10px;
+}
 .fileGuide.fileGuideWithSpecs .fileGuideContent{
   position:relative;
   top:auto;
