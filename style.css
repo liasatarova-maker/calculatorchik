@@ -898,3 +898,60 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
     line-height:1.23;
   }
 }
+
+/* Shared vertical rhythm: more breathing room between product sections. */
+#form > #hardTypeWrap{
+  margin-top:22px;
+}
+#form > #variantWrap > label,
+#form > .sra3Options,
+#form > .canvasOptions,
+#form > .measureControls{
+  margin-top:22px;
+}
+#form > .sra3Summary,
+#form > .services{
+  margin-top:24px;
+}
+#form .services .bannerExtras{
+  margin-top:0;
+}
+#form > .receipt{
+  margin-top:28px;
+}
+#form > .actions{
+  margin-top:22px;
+}
+/* Design request without its former pill: just the checkbox, caption and help icon. */
+#form > .design{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  width:fit-content;
+  max-width:100%;
+  margin-top:24px;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+#form > .design .designToggle{
+  gap:8px;
+}
+@media(max-width:620px){
+  #form > #hardTypeWrap,
+  #form > #variantWrap > label,
+  #form > .sra3Options,
+  #form > .canvasOptions,
+  #form > .measureControls{
+    margin-top:20px;
+  }
+  #form > .sra3Summary,
+  #form > .services,
+  #form > .design{
+    margin-top:22px;
+  }
+  #form > .receipt{margin-top:24px}
+  #form > .actions{margin-top:20px}
+}
