@@ -706,3 +706,87 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   box-shadow:0 0 0 2px #2459e80d;
 }
 .hardTypeChip:focus-visible{outline:2px solid #2459e8;outline-offset:2px}
+
+/* Compact design opt-in shared by all configured products */
+#form .design{
+  position:relative;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  width:fit-content;
+  max-width:100%;
+  padding:7px 10px;
+  margin-top:16px;
+  background:#f5f8ff;
+  border:1px solid #dce6fa;
+  border-radius:var(--calc-field-radius,14px);
+}
+#form .design .designToggle{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin:0;
+  color:#17284e;
+  font-size:14px;
+  font-weight:650;
+  line-height:1.3;
+  white-space:nowrap;
+  cursor:pointer;
+}
+#form .design .designToggle input[type="checkbox"]{
+  flex:0 0 18px;
+  width:18px;
+  height:18px;
+  min-width:18px;
+  min-height:18px;
+  margin:0;
+  padding:0;
+  accent-color:#2459e8;
+}
+#form .design .designInfoButton{
+  display:grid;
+  place-items:center;
+  flex:0 0 21px;
+  width:21px;
+  height:21px;
+  padding:0;
+  border:1px solid #a6b7d9;
+  border-radius:50%;
+  background:transparent;
+  color:#5c75a5;
+  font-size:12px;
+  line-height:1;
+  font-weight:700;
+  cursor:pointer;
+}
+#form .design .designInfoButton:hover,
+#form .design .designInfoButton[aria-expanded="true"]{
+  border-color:#2459e8;
+  color:#2459e8;
+  background:#edf3ff;
+}
+#form .design .designInfoButton:focus-visible{
+  outline:2px solid #2459e8;
+  outline-offset:3px;
+}
+#form .design .designInfoPopover{
+  position:absolute;
+  z-index:15;
+  bottom:calc(100% + 9px);
+  left:0;
+  width:300px;
+  max-width:min(300px,calc(100vw - 48px));
+  padding:12px 14px;
+  border:1px solid #dce6fa;
+  border-radius:13px;
+  background:#fff;
+  box-shadow:0 12px 30px #163b7a20;
+  color:#526580;
+  font-size:12px;
+  font-weight:400;
+  line-height:1.5;
+}
+@media(max-width:430px){
+  #form .design{padding:7px 9px}
+  #form .design .designToggle{font-size:13px}
+}

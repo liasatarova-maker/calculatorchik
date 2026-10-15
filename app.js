@@ -167,13 +167,17 @@ function closeFileGuide(){
   $("#fileGuideContent").classList.add("hidden");
   $("#fileGuideButton").setAttribute("aria-expanded","false");
 }
+function closeDesignInfo(){
+  $("#designInfoPopover").classList.add("hidden");
+  $("#designInfoButton").setAttribute("aria-expanded","false");
+}
 const productGroupOrder={POLY:0,WIDE:1,CANVAS:2,LETTERS:3,PLOTTER:3,VOLUME:4,VOLUME_ADS:5,ADS:6,BRAND:7};
 function orderedProductEntries(){
   return DATA.products.map((p,i)=>({p,i})).sort((a,b)=>
     (productGroupOrder[a.p.cat]??99)-(productGroupOrder[b.p.cat]??99)||a.i-b.i);
 }
 function renderProducts(){$("#products").innerHTML=orderedProductEntries().map(({p,i})=>`<button class="product" data-i="${i}"><b>${p.n}</b><em>${p.subtitle||DATA.cats[p.cat]}</em></button>`).join("");$$(".product").forEach(b=>b.onclick=()=>openProduct(+b.dataset.i))}
-function openProduct(i){if(cur&&!$("#form").classList.contains("hidden"))rememberProductDraft();cur=DATA.products[i];editingId=null;
+function openProduct(i){closeDesignInfo();if(cur&&!$("#form").classList.contains("hidden"))rememberProductDraft();cur=DATA.products[i];editingId=null;
 const pending=cur.t==="pending";
 $("#form").classList.toggle("pendingForm",pending);
 $("#pendingInfo").classList.toggle("hidden",!pending);
@@ -314,8 +318,17 @@ $("#packagingLine").classList.toggle("hidden",!packaging);$("#packagingOut").tex
  $("#save").disabled=invalidSra;$("#order").disabled=invalidSra;
  $("#total").textContent=invalidSra?"—":money(base+extra+packaging);
  return{base,extra,packaging,total:base+extra+packaging,sraLayout,serviceDetails,valid:!invalidSra}}
-document.querySelectorAll(".priceMode").forEach(b=>b.onclick=()=>{priceMode=b.dataset.mode;document.querySelectorAll(".priceMode").forEach(x=>x.classList.toggle("active",x===b));calc()});document.querySelectorAll(".unit").forEach(b=>b.onclick=()=>{const next=b.dataset.unit;if(next===currentUnit)return;const old=unitFactor();currentUnit=next;const neu=unitFactor();["w","h"].forEach(id=>{const el=$("#"+id);el.value=+(el.value*old/neu).toFixed(currentUnit==="m"?3:currentUnit==="cm"?1:0)});refreshUnitControls();calc()});["w","h","q","variant"].forEach(id=>$("#"+id).addEventListener("input",calc));["sraMaterial","sraSides"].forEach(id=>$("#"+id).addEventListener("change",()=>{updateSraVariant();calc()}));document.querySelectorAll(".sraSideChip").forEach(button=>button.addEventListener("click",()=>{if(button.disabled||cur?.c!=="SRA3")return;$("#sraSides").value=button.dataset.side;updateSraVariant();calc()}));$("#fixedSize").addEventListener("change",()=>{updateCanvasPackagingLabel();calc()});$("#canvasPackaging").addEventListener("change",calc);$("#designCheck").onchange=calc;$("#backProducts").onclick=()=>{
+document.querySelectorAll(".priceMode").forEach(b=>b.onclick=()=>{priceMode=b.dataset.mode;document.querySelectorAll(".priceMode").forEach(x=>x.classList.toggle("active",x===b));calc()});document.querySelectorAll(".unit").forEach(b=>b.onclick=()=>{const next=b.dataset.unit;if(next===currentUnit)return;const old=unitFactor();currentUnit=next;const neu=unitFactor();["w","h"].forEach(id=>{const el=$("#"+id);el.value=+(el.value*old/neu).toFixed(currentUnit==="m"?3:currentUnit==="cm"?1:0)});refreshUnitControls();calc()});["w","h","q","variant"].forEach(id=>$("#"+id).addEventListener("input",calc));["sraMaterial","sraSides"].forEach(id=>$("#"+id).addEventListener("change",()=>{updateSraVariant();calc()}));document.querySelectorAll(".sraSideChip").forEach(button=>button.addEventListener("click",()=>{if(button.disabled||cur?.c!=="SRA3")return;$("#sraSides").value=button.dataset.side;updateSraVariant();calc()}));$("#fixedSize").addEventListener("change",()=>{updateCanvasPackagingLabel();calc()});$("#canvasPackaging").addEventListener("change",calc);$("#designCheck").onchange=calc;
+$("#designInfoButton").addEventListener("click",()=>{
+  const open=$("#designInfoPopover").classList.toggle("hidden")===false;
+  $("#designInfoButton").setAttribute("aria-expanded",String(open));
+});
+document.addEventListener("click",e=>{
+  if(!e.target.closest(".design"))closeDesignInfo();
+});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeDesignInfo()});$("#backProducts").onclick=()=>{
   rememberProductDraft();
+  closeDesignInfo();
   closeFileGuide();
   $("#fileGuide").classList.add("hidden");
   $("#form").classList.add("hidden");

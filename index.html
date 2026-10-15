@@ -47,7 +47,11 @@
  <p id="sra3LayoutNote">Лист SRA3: 330 × 487 мм. Поля и промежутки — 2 мм.</p>
 </div>
 <div id="services" class="services"></div>
-<div class="design"><label><input id="designCheck" type="checkbox"> Нужен дизайн</label><p class="designHint">Стоимость дизайна рассчитывается менеджером индивидуально в зависимости от сложности.</p></div>
+<div class="design">
+  <label class="designToggle" for="designCheck"><input id="designCheck" type="checkbox"><span>Нужен дизайн</span></label>
+  <button id="designInfoButton" class="designInfoButton" type="button" aria-label="Информация о стоимости дизайна" aria-controls="designInfoPopover" aria-expanded="false" title="О стоимости дизайна">i</button>
+  <div id="designInfoPopover" class="designInfoPopover hidden" role="note">Стоимость дизайна рассчитывается менеджером индивидуально в зависимости от сложности.</div>
+</div>
 <div class="receipt"><div><span>Изделие</span><b id="basePrice">0 ₽</b></div><div id="serviceLine" class="hidden"><span>Доп. услуги</span><b id="servicePrice">0 ₽</b></div>
 <div id="bannerPerimeterLine" class="hidden"><span id="bannerPerimeterLabel">Проклей</span><b id="bannerPerimeterPrice">0 ₽</b></div>
 <div id="bannerEyeletLine" class="hidden"><span id="bannerEyeletLabel">Люверсы</span><b id="bannerEyeletPrice">0 ₽</b></div><div id="packagingLine" class="hidden"><span>Упаковка</span><b id="packagingOut">0 ₽</b></div><hr><div class="total"><span>Предварительно</span><strong id="total">0 ₽</strong></div></div>
