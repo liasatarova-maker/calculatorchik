@@ -205,8 +205,16 @@ if(pending){
 renderServices();
 restoreProductDraft(productDrafts.get(cur.c));
 closeFileGuide();
+const hasPrintGuide=cur.c==="SRA3";
+$("#fileGuideSra3").classList.toggle("hidden",!hasPrintGuide);
+$("#fileGuideText").classList.toggle("hidden",hasPrintGuide);
 $("#fileGuideText").textContent="Требования к подготовке файла для «"+cur.n+"» будут добавлены позже.";
+$("#fileGuide").classList.toggle("fileGuideWithSpecs",hasPrintGuide);
 $("#fileGuide").classList.remove("hidden");
+if(hasPrintGuide){
+  $("#fileGuideContent").classList.remove("hidden");
+  $("#fileGuideButton").setAttribute("aria-expanded","true");
+}
 calc()}
 function updateCanvasPackagingLabel(){const selected=cur?.sizes?.[+$("#fixedSize").value||0];$("#canvasPackagingPrice").textContent=selected&&cur.c==="HOLST"?"+"+money(selected[4]||0)+" / шт.":""}
 function renderServices(){
