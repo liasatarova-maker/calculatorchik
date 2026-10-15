@@ -676,3 +676,16 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
     margin-top:8px;
   }
 }
+
+/* Unconfigured product placeholders. Do not show fake prices or order controls. */
+#form.pendingForm > :not(.formhead):not(.pendingInfo){display:none!important}
+#form .pendingInfo{
+  margin:18px 0 2px;
+  max-width:570px;
+  padding:18px 20px;
+  border:1px solid #dbe6fb;
+  border-radius:var(--control-radius,14px);
+  background:#f6f9ff;
+}
+#form .pendingInfo strong{display:block;color:#244d9a;font-size:15px;margin-bottom:6px}
+#form .pendingInfo p{margin:0;color:#697994;font-size:13px;line-height:1.5}
