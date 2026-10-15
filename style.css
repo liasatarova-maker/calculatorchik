@@ -1048,6 +1048,9 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 .fileGuide.fileGuideWithSpecs .fileGuideChevron{
   margin-right:10px;
 }
+.fileGuide.fileGuideWithSpecs .fileGuideChevron::after{
+  transform:translateY(-3px) rotate(45deg);
+}
 .fileGuide.fileGuideWithSpecs .fileGuideContent{
   position:relative;
   top:auto;
