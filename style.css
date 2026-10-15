@@ -554,29 +554,27 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   .fileGuideButton{max-width:none;width:100%}
 }
 
-/* Banner finishing: three-column compact bar matching the chosen mockup. */
+/* Banner finishing bar: aligned checkboxes with a non-shifting eyelet note. */
 #form .bannerExtras{
-  margin-top:17px;
+  margin-top:15px;
   padding:0;
-  background:transparent;
   border:0;
-  border-radius:0;
+  background:transparent;
   min-width:0;
 }
 #form .bannerExtrasHeading{
-  margin:0 0 10px 2px;
+  margin:0 0 9px 2px;
   color:#7786a1;
   font-size:13px;
   font-weight:600;
-  line-height:1.4;
+  line-height:1.35;
 }
 #form .bannerExtrasMain{
   display:grid;
-  grid-template-columns:minmax(0,.83fr) minmax(0,1.35fr) minmax(0,1.04fr);
-  align-items:stretch;
-  gap:0;
-  min-height:86px;
-  padding:13px 14px;
+  grid-template-columns:minmax(0,.72fr) minmax(0,1.25fr) minmax(0,1.1fr);
+  align-items:center;
+  min-height:76px;
+  padding:10px 15px;
   border:1px solid #dbe5f7;
   border-radius:var(--calc-field-radius,16px);
   background:#fbfcff;
@@ -585,34 +583,39 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   display:flex;
   align-items:center;
   min-width:0;
+  min-height:54px;
 }
-#form .bannerExtraGlue{padding:0 12px 0 4px}
+#form .bannerExtraGlue{
+  padding:0 10px 0 4px;
+}
 #form .bannerExtraEyelets{
-  flex-direction:column;
-  align-items:flex-start;
-  justify-content:center;
-  padding:0 15px 0 22px;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:flex-start;
+  position:relative;
   border-left:1px solid #e0e8f5;
+  padding:0 12px 0 22px;
 }
 #form .bannerExtraCheck{
   display:inline-flex;
+  flex:0 0 auto;
   align-items:center;
-  gap:11px;
+  gap:10px;
   margin:0;
   white-space:nowrap;
+  font-size:15px;
+  line-height:1.3;
   font-weight:700;
-  font-size:16px;
-  line-height:1.35;
   color:#142852;
   cursor:pointer;
 }
 #form .bannerExtraCheck input[type=checkbox]{
-  appearance:auto;
-  flex:0 0 21px;
-  width:21px;
-  height:21px;
-  min-width:21px;
-  min-height:21px;
+  flex:0 0 20px;
+  width:20px;
+  height:20px;
+  min-width:20px;
+  min-height:20px;
   margin:0;
   padding:0;
   box-shadow:none;
@@ -621,42 +624,50 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 }
 #form .bannerExtraCheck input[type=checkbox]:focus-visible{
   outline:2px solid #2459e8;
-  outline-offset:2px;
+  outline-offset:3px;
 }
+/* Absolutely position the factual step: it never changes column height or label alignment. */
 #form .bannerEyeletDetails{
-  width:100%;
-  min-height:18px;
-  padding-left:32px;
-  margin-top:3px;
+  position:absolute;
+  left:52px;
+  right:10px;
+  top:calc(50% + 14px);
+  margin:0;
+  padding:0;
+  min-height:0;
+  width:auto;
+  pointer-events:none;
 }
 #form .bannerFactStep{
   display:block;
-  max-width:100%;
-  color:#7689ac;
+  color:#7586a5;
   font-size:11px;
   font-weight:500;
-  line-height:1.4;
+  line-height:1.25;
 }
 #form .bannerExtraStep{
-  gap:10px;
+  display:flex;
+  align-items:center;
   justify-content:space-between;
+  gap:10px;
   border-left:1px solid #e0e8f5;
-  padding:0 3px 0 17px;
+  padding:0 3px 0 16px;
 }
 #form .bannerDesiredStep{
   display:block;
+  flex:0 1 auto;
   min-width:0;
   margin:0;
+  white-space:nowrap;
   color:#7889a7;
   font-size:12px;
   font-weight:600;
-  line-height:1.35;
-  white-space:nowrap;
+  line-height:1.3;
 }
 #form .bannerStepper{
   display:flex;
-  flex:0 0 106px;
-  width:106px;
+  flex:0 0 104px;
+  width:104px;
   height:42px;
   overflow:hidden;
   background:#fff;
@@ -670,9 +681,9 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   height:100%;
   min-height:0;
   margin:0;
+  padding:5px 8px 5px 10px;
   border:0;
   border-radius:0;
-  padding:5px 8px 5px 11px;
   outline:0;
   box-shadow:none;
   background:transparent;
@@ -689,8 +700,8 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 }
 #form .bannerStepButtons{
   display:grid;
-  flex:0 0 25px;
   grid-template-rows:1fr 1fr;
+  flex:0 0 25px;
   border-left:1px solid #e7edf7;
 }
 #form .bannerStepButton{
@@ -722,27 +733,32 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 #form #bannerEyeletLine span{min-width:0}
 #form #bannerPerimeterPrice,
 #form #bannerEyeletPrice{white-space:nowrap}
+/* Tablet: two aligned service toggles above the step input. */
 @media(max-width:790px){
   #form .bannerExtrasMain{
-    grid-template-columns:minmax(0,.8fr) minmax(0,1.15fr);
-    row-gap:10px;
+    grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);
+    row-gap:5px;
   }
   #form .bannerExtraEyelets{padding-left:16px}
+  #form .bannerEyeletDetails{left:46px}
   #form .bannerExtraStep{
     grid-column:1/-1;
     border-left:0;
     border-top:1px solid #e0e8f5;
-    padding:10px 4px 0;
+    padding:7px 4px 0;
     justify-content:flex-start;
+    min-height:45px;
   }
 }
 @media(max-width:480px){
-  #form .bannerExtrasMain{padding:11px 10px}
+  #form .bannerExtrasMain{padding:9px 10px}
   #form .bannerExtraGlue{padding-left:0}
   #form .bannerExtraEyelets{padding-left:11px}
-  #form .bannerExtraCheck{font-size:14px;gap:7px}
-  #form .bannerExtraCheck input[type=checkbox]{flex-basis:18px;width:18px;height:18px;min-width:18px;min-height:18px}
-  #form .bannerEyeletDetails{padding-left:25px}
+  #form .bannerEyeletDetails{left:36px;right:2px}
+  #form .bannerExtraCheck{gap:7px;font-size:14px}
+  #form .bannerExtraCheck input[type=checkbox]{
+    flex-basis:18px;width:18px;height:18px;min-width:18px;min-height:18px;
+  }
 }
 /* Unconfigured product placeholders. Do not show fake prices or order controls. */
 #form.pendingForm > :not(.formhead):not(.pendingInfo){display:none!important}
