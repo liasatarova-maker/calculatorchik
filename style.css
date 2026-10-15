@@ -1012,6 +1012,7 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 
 /* Dedicated, collapsible SRA3 print preparation guidance in the side gutter. */
 .fileGuide.fileGuideWithSpecs{
+  top:0;
   width:248px;
   right:-260px;
 }
