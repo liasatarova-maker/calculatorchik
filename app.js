@@ -274,16 +274,13 @@ function fmtStep(n){return Number.isInteger(n)?String(n):n.toFixed(1).replace(".
   sraLayout=calculateSra3Layout(sraMm("w"),sraMm("h"),q);
   if(sraLayout){
     base=(cur.v[idx]?.[1]||0)*sraLayout.sheets;
-    $("#sra3PerSheet").textContent=sraLayout.perSheet+" шт.";
+    $("#sra3PerSheet").textContent=sraLayout.perSheet;
     $("#sra3Sheets").textContent=sraLayout.sheets+" шт.";
-    $("#sra3LayoutNote").textContent=
-      "Раскладка "+sraLayout.columns+" × "+sraLayout.rows+
-      (sraLayout.rotated?" (все изделия повёрнуты на 90°).": " (без поворота).")+
-      " Поля и промежутки — 2 мм, ориентации не смешиваются.";
+    $("#sra3LayoutNote").classList.add("hidden");
   }else{
     $("#sra3PerSheet").textContent="—";
     $("#sra3Sheets").textContent="—";
-    $("#sra3LayoutNote").textContent="Изделие не помещается на лист SRA3 (330 × 487 мм) с полями 2 мм. Уменьшите размеры.";
+    $("#sra3LayoutNote").textContent="Изделие не помещается на лист SRA3 (330 × 487 мм) с полями 2 мм. Уменьшите размеры.";$("#sra3LayoutNote").classList.remove("hidden");
   }
 }else if(cur.t==="business"){base=cur.v[idx]?.[1]||0}else if(cur.t==="cards"){q=Math.max(120,120+Math.round((q-120)/30)*30);$("#q").value=q;base=(cur.v[idx]?.[1]||0)*q}const packaging=cur.c==="HOLST"&&$("#canvasPackaging").checked?(cur.sizes[+$("#fixedSize").value||0]?.[4]||0)*q:0;let extra=0;
 const bannerBreakdown={perimeter:null,eyelets:null};

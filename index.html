@@ -41,10 +41,10 @@
 <div id="measureControls" class="measureControls"><div id="dimensions"><div class="fields"><label>Ширина, <span class="unitLabel">м</span><input id="w" type="number" min=".01" step=".01" value="1"></label><b>×</b><label>Высота, <span class="unitLabel">м</span><input id="h" type="number" min=".01" step=".01" value="1"></label></div></div><div id="unitsField" class="unitsField"><span class="compactFieldLabel">Единицы измерения</span><div class="unitSwitch" role="group" aria-label="Единицы измерения"><button type="button" class="unit" data-unit="mm" aria-pressed="false">мм</button><button type="button" class="unit" data-unit="cm" aria-pressed="false">см</button><button type="button" class="unit active" data-unit="m" aria-pressed="true">м</button></div></div><label class="qty">Количество<input id="q" type="number" min="1" step="1" value="1"></label></div>
 <div id="sra3Summary" class="sra3Summary hidden" aria-live="polite">
  <div class="sra3ResultStats">
-   <div><span>Изделий на одном листе</span><strong id="sra3PerSheet">—</strong></div>
+   <div><span>Изделий на одном листе</span><strong><span id="sra3PerSheet">—</span> шт.</strong></div>
    <div><span>Потребуется листов SRA3</span><strong id="sra3Sheets">—</strong></div>
  </div>
- <p id="sra3LayoutNote">Лист SRA3: 330 × 487 мм. Поля и промежутки — 2 мм.</p>
+ <p id="sra3LayoutNote" class="hidden" role="status"></p>
 </div>
 <div id="services" class="services"></div>
 <div class="design">
