@@ -417,7 +417,8 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 /* Compact horizontal yield readout with values to the right */
 .sra3Summary{
   width:100%;
-  max-width:none;
+  max-width:640px;
+  margin-right:auto;
   margin-top:16px;
   padding:14px 16px;
   border:1px solid #dae4f7;
