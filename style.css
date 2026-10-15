@@ -1034,6 +1034,11 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   right:-317px;
 }
 .fileGuide.fileGuideWithSpecs .fileGuideButton{
+  width:280px;
+  max-width:100%;
+  padding-left:8px;
+  padding-right:8px;
+  gap:6px;
   white-space:nowrap;
 }
 .fileGuide.fileGuideWithSpecs .fileGuideButton>span:nth-child(2){
@@ -1092,11 +1097,11 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
     flex-direction:column;
     align-items:flex-end;
   }
-  .fileGuide.fileGuideWithSpecs .fileGuideButton{width:auto;max-width:305px}
+  .fileGuide.fileGuideWithSpecs .fileGuideButton{width:280px;max-width:280px;margin-right:20px}
   .fileGuide.fileGuideWithSpecs .fileGuideContent{width:300px;max-width:100%}
 }
 @media(max-width:450px){
   .fileGuide.fileGuideWithSpecs{align-items:stretch}
-  .fileGuide.fileGuideWithSpecs .fileGuideButton{width:100%;max-width:none}
+  .fileGuide.fileGuideWithSpecs .fileGuideButton{width:100%;max-width:none;margin-right:0}
   .fileGuide.fileGuideWithSpecs .fileGuideContent{width:100%}
 }
