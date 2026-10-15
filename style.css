@@ -417,7 +417,7 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 /* Compact horizontal yield readout with values to the right */
 .sra3Summary{
   width:100%;
-  max-width:640px;
+  max-width:590px;
   margin-right:auto;
   margin-top:16px;
   padding:14px 16px;
@@ -462,6 +462,13 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   .sra3Selectors{grid-template-columns:minmax(0,1fr);gap:14px}
   .sra3Selectors>label{max-width:none}
   .sraSidesField{max-width:none}
+}
+/* Follow the responsive size fields so both rows end on the same edge. */
+@media(max-width:760px) and (min-width:401px){
+  .sra3Summary{max-width:300px}
+}
+@media(max-width:400px){
+  .sra3Summary{max-width:100%}
 }
 @media(max-width:580px){
   .sra3ResultStats{grid-template-columns:minmax(0,1fr);gap:10px}
