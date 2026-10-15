@@ -173,7 +173,7 @@ function orderedProductEntries(){
   return DATA.products.map((p,i)=>({p,i})).sort((a,b)=>
     (productGroupOrder[a.p.cat]??99)-(productGroupOrder[b.p.cat]??99)||a.i-b.i);
 }
-function renderProducts(){$("#products").innerHTML=orderedProductEntries().map(({p,i})=>`<button class="product" data-i="${i}"><b>${p.n}</b><em>${p.subtitle||DATA.cats[p.cat]}</em></button>`).join("");$$(".product").forEach(b=>b.onclick=()=>openProduct(+b.dataset.i))}
+function renderProducts(){$("#products").innerHTML=orderedProductEntries().map(({p,i})=>`<button class="product" data-i="${i}"><b>${p.c==="BUKVA_MATERIAL"?"Буквы и формы<br>из материалов":p.n}</b><em>${p.subtitle||DATA.cats[p.cat]}</em></button>`).join("");$$(".product").forEach(b=>b.onclick=()=>openProduct(+b.dataset.i))}
 function openProduct(i){closeDesignInfo();if(cur&&!$("#form").classList.contains("hidden"))rememberProductDraft();cur=DATA.products[i];editingId=null;
 const pending=cur.t==="pending";
 $("#form").classList.toggle("pendingForm",pending);
