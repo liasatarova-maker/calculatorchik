@@ -223,13 +223,20 @@ function renderServices(){
         </div>
         <div class="bannerExtraColumn bannerExtraEyelets">
           <label class="bannerExtraCheck"><input type="checkbox" data-si="1"><span>Люверсы</span></label>
-          <label class="bannerDesiredStep"><span>Желаемый шаг, см</span>
-            <input class="serviceQty" data-qi="1" type="number" min="1" step="1" value="20">
-          </label>
+          <div class="bannerEyeletDetails" aria-live="polite">
+            <span class="bannerFactStep hidden" data-eyelet-result="1"></span>
+          </div>
         </div>
-      </div>
-      <div class="bannerFactLine hidden" aria-live="polite">
-        <span class="bannerFactStep hidden" data-eyelet-result="1"></span>
+        <div class="bannerExtraColumn bannerExtraStep">
+          <label class="bannerDesiredStep" for="bannerDesiredStepInput">Желаемый шаг, см</label>
+          <div class="bannerStepper">
+            <input id="bannerDesiredStepInput" class="serviceQty" data-qi="1" type="number" min="1" step="1" value="20">
+            <div class="bannerStepButtons">
+              <button class="bannerStepButton" type="button" data-banner-step="up" aria-label="Увеличить шаг" title="Увеличить шаг"><span class="bannerStepUp" aria-hidden="true"></span></button>
+              <button class="bannerStepButton" type="button" data-banner-step="down" aria-label="Уменьшить шаг" title="Уменьшить шаг"><span class="bannerStepDown" aria-hidden="true"></span></button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>`;
   }else{
@@ -237,6 +244,15 @@ function renderServices(){
   }
   box.classList.toggle("hidden",!(cur.s||[]).length);
   box.querySelectorAll("input").forEach(x=>x.addEventListener("input",calc));
+  box.querySelectorAll("[data-banner-step]").forEach(button=>{
+    button.addEventListener("click",()=>{
+      const input=box.querySelector('[data-qi="1"]');
+      if(!input)return;
+      const previous=Number(input.value)||1;
+      input.value=String(Math.max(1,previous+(button.dataset.bannerStep==="up"?1:-1)));
+      input.dispatchEvent(new Event("input",{bubbles:true}));
+    });
+  });
 }
 const EYELET_EDGE_OFFSET_CM=1.5;
 function calculateEyelets(widthCm,heightCm,desiredStepCm){
@@ -293,14 +309,12 @@ const serviceDetails={};
     extra+=amount;
     bannerBreakdown.eyelets={...eyelets,amount};
     if(factStep){
-      factStep.textContent=`Фактический: ширина ${fmtEyeletStep(eyelets.widthStep)} см · высота ${fmtEyeletStep(eyelets.heightStep)} см`;
+      factStep.textContent=`Фактический шаг: ${fmtEyeletStep(eyelets.widthStep)} см по ширине и ${fmtEyeletStep(eyelets.heightStep)} см по высоте`;
       factStep.classList.remove("hidden");
     }
     serviceDetails[i]=`${eyelets.count} шт. на изделие × ${q} шт. — ${money(amount)}; фактический шаг ${fmtEyeletStep(eyelets.widthStep)} / ${fmtEyeletStep(eyelets.heightStep)} см`;
   }else extra+=s[1]*qty;
 });
-const bannerFactLine=$("#services .bannerFactLine");
-if(bannerFactLine)bannerFactLine.classList.toggle("hidden",!bannerFactLine.querySelector(".bannerFactStep:not(.hidden)"));
 $("#basePrice").textContent=money(base);
 $("#serviceLine").classList.toggle("hidden",!extra||cur.c==="BANNER");
 $("#servicePrice").textContent=money(extra);
