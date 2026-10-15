@@ -357,7 +357,7 @@ $("#fileGuideButton").addEventListener("click",()=>{
   $("#fileGuideButton").setAttribute("aria-expanded",String(visible));
 });
 document.addEventListener("click",e=>{
-  if(!$("#fileGuide").contains(e.target))closeFileGuide();
+  if(!$("#fileGuide").contains(e.target)&&!$("#fileGuide").classList.contains("fileGuideWithSpecs"))closeFileGuide();
 });
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeFileGuide()});
 function getSaved(){try{const a=JSON.parse(localStorage.getItem("luxprint-calcs")||"[]");if(!Array.isArray(a))return[];let updated=false;a.forEach(x=>{if(x&&x.designPricingVersion!==2){if(x.design&&Number.isFinite(+x.designPrice)&&+x.designPrice>0)x.total=Math.max(0,(+x.total||0)-(+x.designPrice));delete x.designPrice;x.designPricingVersion=2;updated=true}
