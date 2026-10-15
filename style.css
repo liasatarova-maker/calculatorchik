@@ -523,7 +523,24 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   border-radius:50%;
   font-size:12px;
 }
-.fileGuideChevron{margin-left:auto;font-size:15px}
+.fileGuideChevron{
+  display:grid;
+  place-items:center;
+  flex:0 0 20px;
+  width:20px;
+  height:20px;
+  margin-left:auto;
+  font-size:0;
+}
+.fileGuideChevron::after{
+  content:"";
+  display:block;
+  width:7px;
+  height:7px;
+  border-right:2px solid currentColor;
+  border-bottom:2px solid currentColor;
+  transform:translateY(-2px) rotate(45deg);
+}
 .fileGuideContent{
   position:absolute;
   top:calc(100% + 8px);
