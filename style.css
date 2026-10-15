@@ -873,3 +873,28 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   #form .design{padding:7px 9px}
   #form .design .designToggle{font-size:13px}
 }
+
+/* Lighter product detail headers across the entire calculator.
+   Keep category/description nodes for product state, but do not display them. */
+#form .formhead #category,
+#form .formhead #comment{
+  display:none;
+}
+#form .formhead{
+  margin:0 0 3px;
+}
+#form .formhead #productName{
+  margin:0;
+  font-size:26px;
+  font-weight:700;
+  letter-spacing:-.025em;
+  line-height:1.2;
+  color:#102044;
+  text-wrap:balance;
+}
+@media(max-width:700px){
+  #form .formhead #productName{
+    font-size:23px;
+    line-height:1.23;
+  }
+}
