@@ -526,20 +526,20 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 .fileGuideChevron{
   display:grid;
   place-items:center;
-  flex:0 0 20px;
-  width:20px;
-  height:20px;
+  flex:0 0 14px;
+  width:14px;
+  height:14px;
   margin-left:auto;
   font-size:0;
 }
 .fileGuideChevron::after{
   content:"";
   display:block;
-  width:7px;
-  height:7px;
-  border-right:2px solid currentColor;
-  border-bottom:2px solid currentColor;
-  transform:translateY(-2px) rotate(45deg);
+  width:5px;
+  height:5px;
+  border-right:1.75px solid currentColor;
+  border-bottom:1.75px solid currentColor;
+  transform:translateY(-1px) rotate(45deg);
 }
 .fileGuideContent{
   position:absolute;
@@ -1030,8 +1030,15 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 /* Dedicated, collapsible SRA3 print preparation guidance in the side gutter. */
 .fileGuide.fileGuideWithSpecs{
   top:0;
-  width:248px;
-  right:-260px;
+  width:305px;
+  right:-317px;
+}
+.fileGuide.fileGuideWithSpecs .fileGuideButton{
+  white-space:nowrap;
+}
+.fileGuide.fileGuideWithSpecs .fileGuideButton>span:nth-child(2){
+  white-space:nowrap;
+  min-width:0;
 }
 .fileGuide.fileGuideWithSpecs .fileGuideContent{
   position:relative;
@@ -1085,7 +1092,7 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
     flex-direction:column;
     align-items:flex-end;
   }
-  .fileGuide.fileGuideWithSpecs .fileGuideButton{width:auto;max-width:248px}
+  .fileGuide.fileGuideWithSpecs .fileGuideButton{width:auto;max-width:305px}
   .fileGuide.fileGuideWithSpecs .fileGuideContent{width:300px;max-width:100%}
 }
 @media(max-width:450px){
