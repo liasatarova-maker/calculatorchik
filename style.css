@@ -1050,12 +1050,6 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   color:#1b3569;
   text-align:right;
 }
-.fileGuideSpecs dl>div:last-child{
-  grid-template-columns:1fr;
-}
-.fileGuideSpecs dl>div:last-child dd{
-  text-align:left;
-}
 .fileGuideSpecs .fileGuideSafeArea{
   margin:12px 0 0;
   color:#526688;
