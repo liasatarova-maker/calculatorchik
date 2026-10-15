@@ -44,7 +44,6 @@ function updateSraVariant(){
   document.querySelectorAll(".sraSideChip").forEach(button=>{
     const unavailable=button.dataset.side==="double"&&!doubleAllowed;
     button.disabled=unavailable;
-    button.classList.toggle("hidden",unavailable);
     const active=button.dataset.side===$("#sraSides").value;
     button.classList.toggle("active",active);
     button.setAttribute("aria-pressed",String(active));

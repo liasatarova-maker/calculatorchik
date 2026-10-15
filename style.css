@@ -395,7 +395,7 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 #form .sra3Selectors select{width:100%;min-width:0}
 .sraSideChips{display:flex;align-items:stretch;gap:8px;min-height:var(--calc-field-height)}
 .sraSideChip{
-  flex:1 1 auto;
+  flex:1 1 0;
   min-width:0;
   padding:9px 12px;
   border-radius:var(--calc-field-radius);
@@ -415,7 +415,7 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   box-shadow:0 0 0 2px #2459e80d;
 }
 .sraSideChip:focus-visible{outline:2px solid #2459e8;outline-offset:3px}
-.sraSideChip:disabled{cursor:not-allowed;opacity:.45}
+.sraSideChip:disabled{cursor:not-allowed;opacity:1;color:#9aa8be;background:#f3f5fa;border-color:#e0e6f0}
 .sraSidesHint{margin:9px 0 0;font-size:12px;color:#7c89a0;line-height:1.4}
 
 /* Compact horizontal yield readout with values to the right */
