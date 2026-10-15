@@ -689,3 +689,19 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 }
 #form .pendingInfo strong{display:block;color:#244d9a;font-size:15px;margin-bottom:6px}
 #form .pendingInfo p{margin:0;color:#697994;font-size:13px;line-height:1.5}
+
+/* Shared letters and rigid-material shapes product type */
+.hardTypeWrap{display:grid;gap:8px;max-width:520px;margin:16px 0 0}
+.hardTypeWrap>span{color:#596680;font-size:13px;font-weight:600}
+.hardTypeChips{display:flex;gap:8px;flex-wrap:wrap}
+.hardTypeChip{
+  border:1px solid #dfe5f0;background:#f8faff;color:#596680;
+  border-radius:var(--calc-field-radius,14px);padding:10px 14px;
+  font-size:14px;font-weight:600;cursor:pointer;
+}
+.hardTypeChip:hover{border-color:#9bb2ef}
+.hardTypeChip.active{
+  border-color:#2459e8;background:#edf3ff;color:#2459e8;
+  box-shadow:0 0 0 2px #2459e80d;
+}
+.hardTypeChip:focus-visible{outline:2px solid #2459e8;outline-offset:2px}

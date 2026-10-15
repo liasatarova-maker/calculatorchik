@@ -4,8 +4,8 @@ const DATA={cats:{WIDE:"Широкоформатная печать",CANVAS:"Х�
 {c:"HOLST",cat:"CANVAS",n:"Холст на подрамнике",t:"fixed",priceModes:true,d:"Готовые размеры холстов",sizes:[[30,30,1750,750,150],[40,40,2000,1000,150],[50,50,2350,1350,200],[60,60,1750,750,250],[100,100,4350,3350,700],[30,21,1650,650,150],[30,40,1900,900,150],[30,45,1950,950,150],[40,50,2200,1200,150],[40,60,2300,1300,150],[50,60,2450,1450,200],[50,70,2650,1650,200],[60,70,2850,1850,250],[60,80,3000,2000,250],[60,90,3200,2200,250],[70,90,3450,2450,400],[70,100,3600,2600,400],[80,100,3850,2850,400],[80,120,4300,3300,600],[90,140,5000,4000,700],[100,150,5650,4650,700],[100,200,6900,5900,700]]},
 {c:"SRA3",cat:"POLY",n:"Полиграфическая продукция",t:"sheet",d:"Раскладка изделий на листе SRA3 330 × 487 мм с полями 2 мм",v:[["Бумага 130 г · односторонняя",100],["Бумага 130 г · двусторонняя",150],["Бумага 270 г · односторонняя",100],["Бумага 270 г · двусторонняя",150],["Самоклеящаяся бумага · односторонняя",150],["Плёнка · односторонняя",300]]},
 {c:"VISITKI",cat:"POLY",n:"Визитки",t:"cards",d:"Размер визитки — 9 × 5 см. Минимальный тираж — 120 шт., далее увеличение по 30 шт.",v:[["Односторонняя",550/120],["Двусторонняя",750/120]]},
-{c:"BUKVA_MATERIAL",cat:"LETTERS",subtitle:"ПВХ, ПЭТ, ХДФ, акрил, полистирол",n:"Буквы из материалов",t:"area",d:"Стоимость зависит от площади и материала",note:"Если у вашего макета фигурная форма реза, менеджер рассчитает его самостоятельно. Контур резки должен предоставляться в формате AI или CDR.",v:[["Акрил",5000],["Полистирол",4000],["ПВХ",3000],["ХДФ",1000],["ПЭТ",2000]]},
-{c:"POLOTNO_FORMA",cat:"LETTERS",subtitle:"ПВХ, ПЭТ, ХДФ, акрил, полистирол",n:"Полотна и формы",t:"area",d:"Стоимость зависит от площади и материала",note:"Если у вашего макета фигурная форма реза, менеджер рассчитает его самостоятельно. Контур резки должен предоставляться в формате AI или CDR.",v:[["Акрил",5000],["ПВХ",3000],["ХДФ",1000],["ДСП",700],["ПЭТ",2000],["Полистирол",4000]]},
+{c:"BUKVA_MATERIAL",cat:"LETTERS",subtitle:"ПВХ, ПЭТ, ХДФ, акрил, полистирол, ДСП",n:"Буквы и формы из твёрдых материалов",t:"area",d:"Выберите тип изделия и материал",note:"Если у вашего макета фигурная форма реза, менеджер рассчитает его самостоятельно. Контур резки должен предоставляться в формате AI или CDR.",v:[["Акрил",5000],["Полистирол",4000],["ПВХ",3000],["ХДФ",1000],["ПЭТ",2000],["ДСП",700]]},
+
 {c:"PLENKA_PLOTTER",cat:"PLOTTER",n:"Буквы и формы из плёнки",t:"area",d:"Виниловая или металлизированная плёнка",v:[["Виниловая",2000],["Металлизированная",2300]]},
 {c:"BYKVA_OBIEM",cat:"VOLUME",n:"Объёмные буквы",t:"area",d:"Цена зависит от площади и типа изделия",v:[["Стандартные",12000],["С подсветкой",25000]]},
 {c:"SATIN_PAPER",cat:"WIDE",n:"Сатиновая бумага",t:"area",d:"Широкоформатная печать на сатиновой бумаге",v:[["Сатиновая бумага",1000]]},
@@ -75,12 +75,41 @@ function refreshUnitControls(){
   }
 }
 
+// Two types share the hard-materials product; DSP is offered for forms only.
+let hardType="letters";
+function updateHardType(){
+  if(cur?.c!=="BUKVA_MATERIAL")return;
+  const shapes=hardType==="shapes";
+  document.querySelectorAll(".hardTypeChip").forEach(b=>{
+    const active=b.dataset.hardType===hardType;
+    b.classList.toggle("active",active);
+    b.setAttribute("aria-pressed",String(active));
+  });
+  const dspIndex=cur.v.findIndex(row=>row[0]==="ДСП");
+  if(dspIndex>=0){
+    const option=$("#variant").options[dspIndex];
+    if(option)option.disabled=!shapes;
+    const chip=document.querySelector('.variantChips .variantChip[data-vi="'+dspIndex+'"]');
+    if(chip){chip.classList.toggle("hidden",!shapes);chip.disabled=!shapes}
+    if(!shapes && +$("#variant").value===dspIndex)$("#variant").value="0";
+  }
+  const selected=+$("#variant").value||0;
+  document.querySelectorAll(".variantChips .variantChip").forEach(b=>
+    b.classList.toggle("active",+b.dataset.vi===selected));
+}
+document.querySelectorAll(".hardTypeChip").forEach(b=>b.addEventListener("click",()=>{
+  if(cur?.c!=="BUKVA_MATERIAL")return;
+  hardType=b.dataset.hardType==="shapes"?"shapes":"letters";
+  updateHardType();
+  calc();
+}));
 // Keep unfinished calculations separately for each product on this page.
 const productDrafts=new Map();
 function rememberProductDraft(){
   if(!cur||cur.t==="pending")return;
   productDrafts.set(cur.c,{
     variant:$("#variant").value,
+    hardType:cur.c==="BUKVA_MATERIAL"?hardType:null,
     fixedSize:$("#fixedSize").value,
     unit:currentUnit,
     w:$("#w").value,
@@ -105,6 +134,10 @@ function restoreProductDraft(draft){
     $("#variant").value=String(variant);
     document.querySelectorAll(".variantChip").forEach(b=>b.classList.toggle("active",+b.dataset.vi===variant));
     if(cur.c==="SRA3")restoreSraVariant(variant);
+  }
+  if(cur.c==="BUKVA_MATERIAL"){
+    hardType=draft.hardType==="shapes"?"shapes":"letters";
+    updateHardType();
   }
   if(cur.sizes&&draft.fixedSize!=null&&cur.sizes[+draft.fixedSize]){
     $("#fixedSize").value=String(draft.fixedSize);
@@ -155,7 +188,7 @@ if(pending){
   closeFileGuide();
   $("#fileGuide").classList.add("hidden");
   return;
-}$("#save").textContent="Сохранить расчёт";$("#products").classList.add("hidden");$("#form").classList.remove("hidden");$("#backProducts").classList.remove("hidden");$("#category").textContent=DATA.cats[cur.cat];$("#productName").textContent=cur.n;$("#comment").textContent=cur.d||"";$("#variantWrap").classList.toggle("hidden",cur.t==="fixed"||cur.c==="SRA3"||cur.c==="SATIN_PAPER");$("#sra3Options").classList.toggle("hidden",cur.c!=="SRA3");$("#sra3Summary").classList.toggle("hidden",cur.c!=="SRA3");$("#canvasOptions").classList.toggle("hidden",cur.t!=="fixed");$("#fixedSizeWrap").classList.toggle("hidden",cur.t!=="fixed");$("#canvasPackagingWrap").classList.toggle("hidden",cur.c!=="HOLST");$("#canvasPackaging").checked=false;const quantityField=$("#q").closest("label");if(cur.c==="HOLST"){$("#canvasOptions").appendChild(quantityField)}else{$("#measureControls").appendChild(quantityField)}$("#measureControls").classList.toggle("hidden",cur.c==="HOLST");$("#priceModeWrap").classList.toggle("hidden",!cur.priceModes);priceMode="retail";document.querySelectorAll(".priceMode").forEach(x=>x.classList.toggle("active",x.dataset.mode==="retail"));const noDimensions=["fixed","business","cards"].includes(cur.t);$("#dimensions").classList.toggle("hidden",noDimensions);$("#unitsField").classList.toggle("hidden",noDimensions);$("#measureControls").classList.toggle("quantityOnly",noDimensions);$("#q").parentElement.classList.toggle("hidden",cur.t==="business");if(cur.t==="cards"){$("#q").parentElement.classList.remove("hidden");$("#q").min="120";$("#q").step="30";$("#q").value="120"}else{$("#q").min="1";$("#q").step="1";$("#q").value="1"};if(cur.v){$("#variant").innerHTML=cur.v.map((v,i)=>`<option value="${i}">${v[0]}</option>`).join("");$("#variant").value="0";const vw=$("#variantWrap");vw.querySelector(".variantChips")?.remove();vw.querySelector("label").firstChild.textContent=cur.c==="VISITKI"?"Тип печати":cur.c==="BYKVA_OBIEM"?"Тип изделия":"Материал / вариант";const useVariantChips=["BANNER","PLENKA_PRINT","VISITKI","BUKVA_MATERIAL","POLOTNO_FORMA","PLENKA_PLOTTER","BYKVA_OBIEM"].includes(cur.c);$("#variant").classList.toggle("hidden",useVariantChips);if(useVariantChips){const chips=document.createElement("div");chips.className="variantChips";chips.innerHTML=cur.v.map((v,i)=>`<button type="button" class="variantChip ${i===0?"active":""}" data-vi="${i}">${v[0]}</button>`).join("");vw.querySelector("label").appendChild(chips);chips.querySelectorAll(".variantChip").forEach(b=>b.onclick=()=>{$("#variant").value=b.dataset.vi;chips.querySelectorAll(".variantChip").forEach(x=>x.classList.toggle("active",x===b));calc()})}}if(cur.c==="SRA3"){
+}$("#save").textContent="Сохранить расчёт";$("#products").classList.add("hidden");$("#form").classList.remove("hidden");$("#backProducts").classList.remove("hidden");$("#category").textContent=DATA.cats[cur.cat];$("#productName").textContent=cur.n;$("#comment").textContent=cur.d||"";$("#variantWrap").classList.toggle("hidden",cur.t==="fixed"||cur.c==="SRA3"||cur.c==="SATIN_PAPER");$("#hardTypeWrap").classList.toggle("hidden",cur.c!=="BUKVA_MATERIAL");hardType="letters";$("#sra3Options").classList.toggle("hidden",cur.c!=="SRA3");$("#sra3Summary").classList.toggle("hidden",cur.c!=="SRA3");$("#canvasOptions").classList.toggle("hidden",cur.t!=="fixed");$("#fixedSizeWrap").classList.toggle("hidden",cur.t!=="fixed");$("#canvasPackagingWrap").classList.toggle("hidden",cur.c!=="HOLST");$("#canvasPackaging").checked=false;const quantityField=$("#q").closest("label");if(cur.c==="HOLST"){$("#canvasOptions").appendChild(quantityField)}else{$("#measureControls").appendChild(quantityField)}$("#measureControls").classList.toggle("hidden",cur.c==="HOLST");$("#priceModeWrap").classList.toggle("hidden",!cur.priceModes);priceMode="retail";document.querySelectorAll(".priceMode").forEach(x=>x.classList.toggle("active",x.dataset.mode==="retail"));const noDimensions=["fixed","business","cards"].includes(cur.t);$("#dimensions").classList.toggle("hidden",noDimensions);$("#unitsField").classList.toggle("hidden",noDimensions);$("#measureControls").classList.toggle("quantityOnly",noDimensions);$("#q").parentElement.classList.toggle("hidden",cur.t==="business");if(cur.t==="cards"){$("#q").parentElement.classList.remove("hidden");$("#q").min="120";$("#q").step="30";$("#q").value="120"}else{$("#q").min="1";$("#q").step="1";$("#q").value="1"};if(cur.v){$("#variant").innerHTML=cur.v.map((v,i)=>`<option value="${i}">${v[0]}</option>`).join("");$("#variant").value="0";const vw=$("#variantWrap");vw.querySelector(".variantChips")?.remove();vw.querySelector("label").firstChild.textContent=cur.c==="VISITKI"?"Тип печати":cur.c==="BYKVA_OBIEM"?"Тип изделия":cur.c==="BUKVA_MATERIAL"?"Материал":"Материал / вариант";const useVariantChips=["BANNER","PLENKA_PRINT","VISITKI","BUKVA_MATERIAL","POLOTNO_FORMA","PLENKA_PLOTTER","BYKVA_OBIEM"].includes(cur.c);$("#variant").classList.toggle("hidden",useVariantChips);if(useVariantChips){const chips=document.createElement("div");chips.className="variantChips";chips.innerHTML=cur.v.map((v,i)=>`<button type="button" class="variantChip ${i===0?"active":""}" data-vi="${i}">${v[0]}</button>`).join("");vw.querySelector("label").appendChild(chips);chips.querySelectorAll(".variantChip").forEach(b=>b.onclick=()=>{$("#variant").value=b.dataset.vi;chips.querySelectorAll(".variantChip").forEach(x=>x.classList.toggle("active",x===b));calc()})}}if(cur.c==="BUKVA_MATERIAL")updateHardType();if(cur.c==="SRA3"){
   $("#sraMaterial").value="paper130";
   $("#sraSides").value="single";
   updateSraVariant();
@@ -309,18 +342,33 @@ if(x?.product==="BYKVA_OBIEM_SVET"){
 }else if(x?.product==="BYKVA_OBIEM"&&+x.variant===0&&x.variantName==="Стандарт"){
  x.variantName="Стандартные";
  updated=true;
+}
+if(x?.product==="POLOTNO_FORMA"){
+  const oldNames=["Акрил","ПВХ","ХДФ","ДСП","ПЭТ","Полистирол"];
+  const newNames=["Акрил","Полистирол","ПВХ","ХДФ","ПЭТ","ДСП"];
+  const material=oldNames.includes(x.variantName)?x.variantName:oldNames[Number(x.variant)]||oldNames[0];
+  x.variant=newNames.indexOf(material);
+  x.variantName=material;
+  x.product="BUKVA_MATERIAL";
+  x.name="Буквы и формы из твёрдых материалов";
+  x.hardType="shapes";
+  updated=true;
+}else if(x?.product==="BUKVA_MATERIAL"&&x.hardType!=="letters"&&x.hardType!=="shapes"){
+  x.name="Буквы и формы из твёрдых материалов";
+  x.hardType="letters";
+  updated=true;
 }});if(updated)localStorage.setItem("luxprint-calcs",JSON.stringify(a));return a}catch{return[]}}
 function setSaved(x){localStorage.setItem("luxprint-calcs",JSON.stringify(x));renderSaved()}
-function snapshot(){const r=calc(),idx=+$("#variant").value||0,si=+$("#fixedSize").value||0,services=(cur.s||[]).map((s,i)=>({name:s[0],checked:!!$('[data-si="'+i+'"]')?.checked,qty:+$('[data-qi="'+i+'"]')?.value||0,details:r.serviceDetails?.[i]||$('[data-eyelet-result="'+i+'"]')?.textContent||""}));return{id:Date.now(),product:cur.c,name:cur.n,date:new Date().toLocaleDateString("ru-RU"),priceMode,unit:currentUnit,variant:idx,variantName:cur.v?.[idx]?.[0]||"",fixedSize:si,sizeName:cur.sizes?.[si]?cur.sizes[si][0]+"×"+cur.sizes[si][1]+" см":"",w:+$("#w").value||0,h:+$("#h").value||0,q:+$("#q").value||1,design:!!$("#designCheck").checked,designPricingVersion:2,sra3Layout:cur.c==="SRA3"?r.sraLayout:null,packaging:cur.c==="HOLST"&&$("#canvasPackaging").checked,packagingUnitPrice:cur.c==="HOLST"&&$("#canvasPackaging").checked?(cur.sizes[si]?.[4]||0):0,services,total:r.total}}
+function snapshot(){const r=calc(),idx=+$("#variant").value||0,si=+$("#fixedSize").value||0,services=(cur.s||[]).map((s,i)=>({name:s[0],checked:!!$('[data-si="'+i+'"]')?.checked,qty:+$('[data-qi="'+i+'"]')?.value||0,details:r.serviceDetails?.[i]||$('[data-eyelet-result="'+i+'"]')?.textContent||""}));return{id:Date.now(),product:cur.c,name:cur.n,date:new Date().toLocaleDateString("ru-RU"),priceMode,unit:currentUnit,variant:idx,variantName:cur.v?.[idx]?.[0]||"",hardType:cur.c==="BUKVA_MATERIAL"?hardType:null,fixedSize:si,sizeName:cur.sizes?.[si]?cur.sizes[si][0]+"×"+cur.sizes[si][1]+" см":"",w:+$("#w").value||0,h:+$("#h").value||0,q:+$("#q").value||1,design:!!$("#designCheck").checked,designPricingVersion:2,sra3Layout:cur.c==="SRA3"?r.sraLayout:null,packaging:cur.c==="HOLST"&&$("#canvasPackaging").checked,packagingUnitPrice:cur.c==="HOLST"&&$("#canvasPackaging").checked?(cur.sizes[si]?.[4]||0):0,services,total:r.total}}
 let editingId=null;
 $("#save").onclick=()=>{const item=snapshot(),arr=getSaved();if(editingId){item.id=editingId;const i=arr.findIndex(x=>x.id==editingId);if(i>=0)arr[i]=item;else arr.unshift(item);editingId=null}else arr.unshift(item);setSaved(arr);$("#save").textContent="Сохранено ✓";setTimeout(()=>$("#save").textContent="Сохранить расчёт",1200)};
-function savedDetails(x){const parts=[];if(x.variantName)parts.push("Вариант: "+x.variantName);if(x.sizeName)parts.push("Размер: "+x.sizeName);if(x.w&&x.h)parts.push("Размер: "+x.w+" × "+x.h+" "+(x.unit||"м"));if(x.q)parts.push("Количество: "+x.q);if(x.priceMode&&x.product!=="SRA3")parts.push("Цена: "+(x.priceMode==="wholesale"?"опт":"розница"));if(x.product==="SRA3"&&x.sra3Layout)parts.push("SRA3: "+x.sra3Layout.perSheet+" шт./лист · "+x.sra3Layout.sheets+" л. · "+x.sra3Layout.columns+" × "+x.sra3Layout.rows+(x.sra3Layout.rotated?" (поворот 90°)":""));if(x.packaging)parts.push("Упаковка: "+money(x.packagingUnitPrice||0)+" / шт. × "+(x.q||1));(x.services||[]).filter(s=>s.checked).forEach(s=>parts.push(s.name+(s.qty?" · "+s.qty:"")+(s.details?" · "+s.details:"")));if(x.design)parts.push("Нужен дизайн — стоимость уточнит менеджер");return parts}
+function savedDetails(x){const parts=[];if(x.product==="BUKVA_MATERIAL")parts.push("Тип изделия: "+(x.hardType==="shapes"?"Полотна и формы":"Буквы"));if(x.variantName)parts.push("Вариант: "+x.variantName);if(x.sizeName)parts.push("Размер: "+x.sizeName);if(x.w&&x.h)parts.push("Размер: "+x.w+" × "+x.h+" "+(x.unit||"м"));if(x.q)parts.push("Количество: "+x.q);if(x.priceMode&&x.product!=="SRA3")parts.push("Цена: "+(x.priceMode==="wholesale"?"опт":"розница"));if(x.product==="SRA3"&&x.sra3Layout)parts.push("SRA3: "+x.sra3Layout.perSheet+" шт./лист · "+x.sra3Layout.sheets+" л. · "+x.sra3Layout.columns+" × "+x.sra3Layout.rows+(x.sra3Layout.rotated?" (поворот 90°)":""));if(x.packaging)parts.push("Упаковка: "+money(x.packagingUnitPrice||0)+" / шт. × "+(x.q||1));(x.services||[]).filter(s=>s.checked).forEach(s=>parts.push(s.name+(s.qty?" · "+s.qty:"")+(s.details?" · "+s.details:"")));if(x.design)parts.push("Нужен дизайн — стоимость уточнит менеджер");return parts}
 function renderSaved(){const a=getSaved();$("#savedCount").textContent=a.length;$("#savedList").innerHTML=a.length?a.map(x=>'<article class="savedCard"><div class="savedMain"><div class="savedTop"><div><h3>'+x.name+'</h3><p>'+x.date+'</p></div><strong class="savedPrice">'+money(x.total)+'</strong></div><div class="savedDetails">'+savedDetails(x).map(v=>'<span>'+v+'</span>').join("")+'</div></div><div class="savedActions"><button data-edit="'+x.id+'">Редактировать</button><button data-del="'+x.id+'">Удалить</button></div></article>').join(""):'<div class="empty">Пока нет сохранённых расчётов.</div>';const grand=a.reduce((s,x)=>s+(+x.total||0),0);$("#savedSendBar").classList.toggle("hidden",!a.length);$("#savedGrandTotal").textContent=money(grand);$$("[data-del]").forEach(b=>b.onclick=()=>setSaved(a.filter(x=>x.id!=b.dataset.del)));$$("[data-edit]").forEach(b=>b.onclick=()=>editSaved(a.find(x=>x.id==b.dataset.edit)))}
 function orderText(items){const lines=["Здравствуйте! Хочу оформить заявку по расчётам из онлайн-калькулятора ЛюксПринт.",""];items.forEach((x,i)=>{lines.push((i+1)+". "+x.name+" — "+money(x.total));savedDetails(x).forEach(v=>lines.push("   "+v));lines.push("")});lines.push("Итого предварительно: "+money(items.reduce((s,x)=>s+(+x.total||0),0)));return lines.join("\n")}
 const MAX_URL="https://max.ru/u/f9LHodD0cOITuZbrLEgN24Esqcabh3P4DewX4a-rtk819z3TTEFjMK3a4NU";
 function sendToMax(items){if(!items.length)return alert("Сначала сохраните хотя бы один расчёт.");const msg=orderText(items);navigator.clipboard?.writeText(msg).catch(()=>{});window.open(MAX_URL,"_blank","noopener");alert("Расчёты скопированы в буфер обмена. Вставьте сообщение в чат MAX и отправьте его менеджеру.")}
 
-function editSaved(x){if(!x?.product)return;const i=DATA.products.findIndex(p=>p.c===x.product);if(i<0)return;tab(false);openProduct(i);editingId=x.id;priceMode=x.priceMode||"retail";document.querySelectorAll(".priceMode").forEach(b=>b.classList.toggle("active",b.dataset.mode===priceMode));if(x.variant!=null){$("#variant").value=x.variant;document.querySelectorAll(".variantChip").forEach(b=>b.classList.toggle("active",+b.dataset.vi===+x.variant));if(cur.c==="SRA3")restoreSraVariant(+x.variant)}if(x.fixedSize!=null)$("#fixedSize").value=x.fixedSize;$("#canvasPackaging").checked=!!x.packaging;updateCanvasPackagingLabel();if(x.unit){
+function editSaved(x){if(!x?.product)return;const i=DATA.products.findIndex(p=>p.c===x.product);if(i<0)return;tab(false);openProduct(i);editingId=x.id;priceMode=x.priceMode||"retail";document.querySelectorAll(".priceMode").forEach(b=>b.classList.toggle("active",b.dataset.mode===priceMode));if(x.variant!=null){$("#variant").value=x.variant;document.querySelectorAll(".variantChip").forEach(b=>b.classList.toggle("active",+b.dataset.vi===+x.variant));if(cur.c==="SRA3")restoreSraVariant(+x.variant)}if(cur.c==="BUKVA_MATERIAL"){hardType=x.hardType==="shapes"?"shapes":"letters";updateHardType()}if(x.fixedSize!=null)$("#fixedSize").value=x.fixedSize;$("#canvasPackaging").checked=!!x.packaging;updateCanvasPackagingLabel();if(x.unit){
   currentUnit=cur.c==="SRA3"&&x.unit==="m"?"mm":x.unit;
   refreshUnitControls();
  }

@@ -5,6 +5,13 @@
 <button id="backProducts" class="backProducts hidden">← Все продукты</button><section class="panel"><div class="products" id="products"></div>
 <div id="form" class="form hidden"><div class="formhead"><div><small id="category"></small><h2 id="productName"></h2><p id="comment"></p></div></div>
 <div id="pendingInfo" class="pendingInfo hidden"><strong>Карточка в разработке</strong><p>Материалы, параметры и цены для этой продукции добавим позже.</p></div>
+<div id="hardTypeWrap" class="hardTypeWrap hidden">
+  <span id="hardTypeLabel">Тип изделия</span>
+  <div class="hardTypeChips" role="group" aria-labelledby="hardTypeLabel">
+    <button type="button" class="hardTypeChip active" data-hard-type="letters" aria-pressed="true">Буквы</button>
+    <button type="button" class="hardTypeChip" data-hard-type="shapes" aria-pressed="false">Полотна и формы</button>
+  </div>
+</div>
 <div id="variantWrap"><label>Материал / вариант<select id="variant"></select></label></div>
 <div id="sra3Options" class="sra3Options hidden">
   <div class="sra3Selectors">
