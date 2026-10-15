@@ -395,7 +395,7 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 #form .sra3Selectors select{width:100%;min-width:0}
 .sraSideChips{display:flex;align-items:stretch;gap:8px;min-height:var(--calc-field-height)}
 .sraSideChip{
-  flex:1 1 0;
+  flex:0 0 auto;
   min-width:0;
   border:1px solid #dfe5f0;
   color:#65738c;
