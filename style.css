@@ -442,10 +442,10 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   min-width:0;
 }
 .sra3ResultStats>div+div{border-left:1px solid #dce5f5;padding-left:18px}
-.sra3ResultStats span{font-size:12px;color:#75839d;line-height:1.35}
+.sra3ResultStats>div>span{font-size:12px;color:#75839d;line-height:1.35}
 .sra3ResultStats strong{
   flex-shrink:0;
-  font-size:23px;
+  font-size:21px;
   color:#2459e8;
   line-height:1.25;
   white-space:nowrap;
@@ -473,7 +473,7 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
     border-top:1px solid #e2e9f7;
     padding:10px 0 0;
   }
-  .sra3ResultStats strong{font-size:21px}
+  .sra3ResultStats strong{font-size:19px}
 }
 @media(max-width:380px){
   .sraSideChips{flex-wrap:wrap}
