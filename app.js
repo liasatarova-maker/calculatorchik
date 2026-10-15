@@ -309,7 +309,7 @@ const serviceDetails={};
     extra+=amount;
     bannerBreakdown.eyelets={...eyelets,amount};
     if(factStep){
-      factStep.textContent=`Фактический шаг: ${fmtEyeletStep(eyelets.widthStep)} см по ширине и ${fmtEyeletStep(eyelets.heightStep)} см по высоте`;
+      factStep.textContent=`Факт. шаг: ${fmtEyeletStep(eyelets.widthStep)} × ${fmtEyeletStep(eyelets.heightStep)} см`;
       factStep.classList.remove("hidden");
     }
     serviceDetails[i]=`${eyelets.count} шт. на изделие × ${q} шт. — ${money(amount)}; фактический шаг ${fmtEyeletStep(eyelets.widthStep)} / ${fmtEyeletStep(eyelets.heightStep)} см`;
