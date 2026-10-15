@@ -48,9 +48,6 @@ function updateSraVariant(){
     button.classList.toggle("active",active);
     button.setAttribute("aria-pressed",String(active));
   });
-  $("#sraSidesHint").textContent=doubleAllowed
-    ?"Для бумаги возможна односторонняя и двусторонняя печать."
-    :"Для этого материала доступна только односторонняя печать.";
   const idx=SRA3_VARIANTS.findIndex(v=>v[0]===material&&v[1]===$("#sraSides").value);
   $("#variant").value=String(Math.max(0,idx));
 }
