@@ -487,9 +487,9 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
 .panel{position:relative}
 .fileGuide{
   position:absolute;
-  top:26px;
-  right:-181px;
-  width:169px;
+  top:0;
+  right:-272px;
+  width:260px;
   z-index:5;
 }
 .fileGuideButton{
@@ -497,16 +497,21 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   border:1px solid #dbe4f5;
   background:#f4f7ff;
   border-radius:14px;
-  padding:9px 10px;
+  padding:9px 8px;
   display:flex;
   align-items:center;
-  gap:7px;
+  gap:6px;
+  white-space:nowrap;
   text-align:left;
   color:#45669f;
   font-size:11px;
   line-height:1.35;
   font-weight:700;
   box-shadow:0 4px 16px #284d9e0a;
+}
+.fileGuideButton>span:nth-child(2){
+  white-space:nowrap;
+  min-width:0;
 }
 .fileGuideButton:hover,.fileGuideButton[aria-expanded="true"]{
   background:#e9f0ff;
@@ -530,6 +535,7 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   width:14px;
   height:14px;
   margin-left:auto;
+  margin-right:10px;
   font-size:0;
 }
 .fileGuideChevron::after{
@@ -539,41 +545,44 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   height:5px;
   border-right:1.75px solid currentColor;
   border-bottom:1.75px solid currentColor;
-  transform:translateY(-1px) rotate(45deg);
+  transform:translateY(-3px) rotate(45deg);
 }
 .fileGuideContent{
-  position:absolute;
-  top:calc(100% + 8px);
-  right:0;
-  width:285px;
-  max-width:min(285px,calc(100vw - 30px));
-  padding:16px;
+  position:relative;
+  top:auto;
+  right:auto;
+  width:100%;
+  max-width:100%;
+  margin-top:10px;
+  padding:15px;
   border:1px solid #dbe4f5;
   border-radius:14px;
   background:white;
-  box-shadow:0 16px 38px #1a376c1e;
+  box-shadow:0 8px 26px #1a376c0c;
   color:#17284e;
   font-size:13px;
   line-height:1.5;
 }
 .fileGuideContent strong{display:block;margin-bottom:7px}
 .fileGuideContent p{margin:0;color:#647797}
-@media(max-width:1250px){
+@media(max-width:1460px){
   .fileGuide{
     position:relative;
     top:auto;
     right:auto;
-    width:auto;
-    margin-top:15px;
+    width:100%;
+    margin-top:17px;
     display:flex;
-    justify-content:flex-end;
+    flex-direction:column;
+    align-items:flex-end;
   }
-  .fileGuideButton{width:auto;max-width:240px}
-  .fileGuideContent{top:calc(100% + 7px);right:0}
+  .fileGuideButton{width:260px;max-width:100%}
+  .fileGuideContent{width:260px;max-width:100%}
 }
 @media(max-width:450px){
-  .fileGuide{justify-content:stretch}
-  .fileGuideButton{max-width:none;width:100%}
+  .fileGuide{align-items:stretch}
+  .fileGuideButton{width:100%;max-width:none}
+  .fileGuideContent{width:100%}
 }
 
 /* Banner finishing bar: aligned checkboxes with a non-shifting eyelet note. */
