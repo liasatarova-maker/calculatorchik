@@ -1127,3 +1127,12 @@ input,select,.variantChip,.unitSwitch,.unitSwitch .unit,.service,.design,.receip
   .fileGuide.fileGuideWithSpecs .fileGuideButton{width:100%;max-width:none;margin-right:0}
   .fileGuide.fileGuideWithSpecs .fileGuideContent{width:100%}
 }
+
+/* Optional material-specific heading in the artwork preparation list. */
+.fileGuideSpecs .fileGuideLead{
+  margin:0 0 7px;
+  color:#17284e;
+  font-size:12px;
+  font-weight:700;
+  line-height:1.4;
+}
