@@ -498,6 +498,25 @@ $("#aboutTab").onclick=()=>tab("about");
 $("#calcTab").onclick=()=>tab("calc");
 $("#savedTab").onclick=()=>tab("saved");
 $("#aboutStartCalc").onclick=()=>tab("calc");
+const aboutPreview={
+ calc:"Выберите изделие, размеры и количество, чтобы рассчитать предварительную стоимость заказа.",
+ materials:"Знакомьтесь с баннерной тканью, плёнкой, листовыми материалами и другими основами для печати.",
+ files:"Посмотрите примеры изделий и узнайте, как подготовить файлы к печати."
+};
+function showAboutPreview(key){
+ if(!aboutPreview[key])return;
+ $("#aboutPrepDescription").textContent=aboutPreview[key];
+ document.querySelectorAll("[data-about-prep]").forEach(link=>{
+  const current=link.dataset.aboutPrep===key;
+  link.classList.toggle("is-active",current);
+  if(current)link.setAttribute("aria-current","true");else link.removeAttribute("aria-current");
+ });
+}
+document.querySelectorAll("[data-about-prep]").forEach(link=>{
+ link.addEventListener("mouseenter",()=>showAboutPreview(link.dataset.aboutPrep));
+ link.addEventListener("focus",()=>showAboutPreview(link.dataset.aboutPrep));
+});
+
 window.addEventListener("hashchange",()=>tab(currentViewFromHash(),false));
 window.addEventListener("popstate",()=>tab(currentViewFromHash(),false));
 $("#sendSaved").onclick=()=>sendToMax(getSaved());

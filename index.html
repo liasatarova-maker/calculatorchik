@@ -1,29 +1,56 @@
 <!doctype html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ЛюксПринт — дизайн, печать и рекламная продукция</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
 <header class="site-header"><a class="brand" href="index.html#about">ЛЮКСПРИНТ</a><nav class="site-nav" aria-label="Основное меню"><button id="aboutTab" class="nav active" type="button">О нас</button><button id="calcTab" class="nav" type="button">Калькулятор</button><button id="savedTab" class="nav" type="button">Мои расчёты <span id="savedCount" class="nav-count">0</span></button><a class="nav" href="materials.html">Материалы</a><a class="nav" href="gallery.html">Галерея изделий</a><a class="nav" href="school.html">LuxPrint School</a></nav></header>
 <main><section id="aboutView" class="about-view">
-  <div class="about-hero">
+  <section class="about-hero" aria-labelledby="aboutHeading">
     <div class="about-intro">
-      <span class="about-eyebrow">ЛюксПринт · дизайн и печать</span>
-      <h1>От идеи до готового изделия</h1>
-      <p>Помогаем с дизайном, печатью и изготовлением рекламной продукции. Выбирайте изделия, знакомьтесь с материалами и рассчитывайте предварительную стоимость прямо на сайте.</p>
+      <span class="about-eyebrow">АСТРАХАНСКАЯ ТИПОГРАФИЯ</span>
+      <h1 id="aboutHeading">Luxprint<span class="about-period">.</span></h1>
+      <p>Готовы реализовать продукцию быстро: от полиграфии до крупных рекламных конструкций.</p>
+      <p>Поможем вам с расчётом заказа и разработкой дизайна.</p>
       <div class="about-hero-actions">
         <button type="button" class="primary" id="aboutStartCalc">Рассчитать заказ</button>
-        <a class="secondary" href="materials.html">Наши материалы</a>
+        <a class="secondary" href="gallery.html">Наше портфолио</a>
       </div>
     </div>
-    <div class="about-mascot" aria-hidden="true"><img src="Глянцевый%20синий%20маскот%20в%20бумажной%20лодочке.png" alt=""></div>
-  </div>
-  <section class="about-steps" aria-label="Как мы помогаем">
-    <div class="about-step"><span>01</span><h2>Выбирайте продукцию</h2><p>Полиграфия, баннеры, холсты, вывески, буквы и формы — начните с нужного изделия.</p></div>
-    <div class="about-step"><span>02</span><h2>Подбирайте материал</h2><p>В отдельном разделе собрали основные материалы и объяснили, где их применяют.</p></div>
-    <div class="about-step"><span>03</span><h2>Готовьте макет</h2><p>В карточках продукции есть требования к файлам. При необходимости можно заказать дизайн.</p></div>
+    <div class="about-visual">
+      <span class="about-visual-sheet sheet-a" aria-hidden="true"></span>
+      <span class="about-visual-sheet sheet-b" aria-hidden="true"></span>
+      <img src="Глянцевый%20синий%20маскот%20в%20бумажной%20лодочке.png" alt="Фирменный персонаж ЛюксПринт">
+      <span class="about-visual-caption">Дизайн · Печать · Изготовление</span>
+    </div>
   </section>
-  <section class="about-links-section">
-    <div><span class="about-eyebrow">Полезное на сайте</span><h2>Всё для подготовки заказа</h2></div>
-    <div class="about-link-grid">
-      <a href="materials.html"><strong>Материалы</strong><span>Что выбрать для вашего изделия</span></a>
-      <a href="gallery.html"><strong>Галерея изделий</strong><span>Примеры продукции и подготовка файлов</span></a>
-      <a href="school.html"><strong>LuxPrint School</strong><span>Статьи и обучающие материалы</span></a>
+  <section class="about-services" aria-labelledby="servicesHeading">
+    <h2 id="servicesHeading">Наши услуги</h2>
+    <div class="about-service-grid"><article class="about-service"><h3>Дизайн макета<br>и фирменный стиль</h3><p>Создадим дизайн макета для вашей продукции, фирменную графику, инфографику и другие материалы для бренда.</p></article>
+<article class="about-service"><h3>Широкоформатная<br>печать</h3><p>Печатаем баннеры, плёнку, ролл-апы, наклейки для витрин, фотозоны и другую крупную продукцию.</p></article>
+<article class="about-service"><h3>Полиграфическая<br>продукция</h3><p>Визитки, буклеты, постеры, открытки, пригласительные, листовки и флаеры.</p></article>
+<article class="about-service"><h3>Формы и буквы,<br>объёмные объекты</h3><p>Изготавливаем декоративные буквы и формы из разных материалов, наносим плёнку и окрашиваем.</p></article>
+<article class="about-service"><h3>Печать ДТФ<br>по ткани</h3><p>Наносим изображения и надписи на текстиль с помощью технологии ДТФ.</p></article>
+<article class="about-service"><h3>Холсты<br>на подрамнике</h3><p>Создаём холсты с фотографиями и иллюстрациями, поможем выбрать размер и подготовить изображение.</p></article></div>
+  </section>
+  <section class="about-preparation" aria-labelledby="preparationHeading">
+    <h2 id="preparationHeading">Всё для подготовки изделия</h2>
+    <div class="about-preparation-links">
+      <a class="about-preparation-link is-active" data-about-prep="calc" aria-current="true" href="#calc">Калькулятор <span aria-hidden="true">↗</span></a>
+      <a class="about-preparation-link" data-about-prep="materials" href="materials.html">Библиотека материалов <span aria-hidden="true">↗</span></a>
+      <a class="about-preparation-link" data-about-prep="files" href="gallery.html">Подготовка макетов <span aria-hidden="true">↗</span></a>
+    </div>
+    <p id="aboutPrepDescription" class="about-preparation-description" aria-live="polite">Выберите изделие, размеры и количество, чтобы рассчитать предварительную стоимость заказа.</p>
+  </section>
+  <section class="about-contacts" aria-labelledby="contactsHeading">
+    <div class="about-contacts-inner">
+      <div class="about-contact-details">
+        <span class="about-eyebrow">Будем рады вашему обращению</span>
+        <h2 id="contactsHeading">Контакты</h2>
+        <div class="about-contact-group"><strong>Адрес</strong><p>Астрахань, ул. Челябинская, 1А</p></div>
+        <div class="about-contact-group"><strong>Телефон</strong><a href="tel:+79272825147">+7 (927) 282-51-47</a></div>
+        <div class="about-contact-group"><strong>Почта</strong><a href="mailto:office@luxprint.pro">office@luxprint.pro</a></div>
+      </div>
+      <a class="about-location" href="https://www.openstreetmap.org/search?query=%D0%90%D1%81%D1%82%D1%80%D0%B0%D1%85%D0%B0%D0%BD%D1%8C%2C%20%D1%83%D0%BB.%20%D0%A7%D0%B5%D0%BB%D1%8F%D0%B1%D0%B8%D0%BD%D1%81%D0%BA%D0%B0%D1%8F%2C%201%D0%90" target="_blank" rel="noopener noreferrer" aria-label="Найти ЛюксПринт на карте по адресу Астрахань, улица Челябинская, 1А">
+        <span class="about-location-pattern" aria-hidden="true"></span>
+        <span class="about-location-marker" aria-hidden="true"></span>
+        <span class="about-location-card"><strong>Мы в Астрахани</strong><span>ул. Челябинская, 1А</span><em>Открыть на карте ↗</em></span>
+      </a>
     </div>
   </section>
 </section>
