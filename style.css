@@ -1243,7 +1243,8 @@ header nav .explore-nav{display:inline-flex;align-items:center;text-decoration:n
 .about-visual-caption{position:absolute;z-index:2;bottom:18px;padding:8px 14px;border:1px solid #dbe5f5;border-radius:99px;background:#fffffff2;color:#36558c;font-size:11px;font-weight:700;white-space:nowrap}
 .about-services{margin-top:64px}
 .about-service-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
-.about-service{min-width:0;min-height:204px;padding:24px 22px;background:white;border:1px solid #e1e8f5;border-radius:18px;box-shadow:0 7px 22px #284d9e08}
+.about-service{min-width:0;min-height:204px;padding:24px 22px;background:white;border:1px solid #e1e8f5;border-radius:18px;box-shadow:0 7px 22px #284d9e08;transition:box-shadow .22s ease}
+@media(hover:hover){.about-service:hover{box-shadow:0 12px 28px #284d9e1e}}
 .about-service h3{font-size:19px;line-height:1.3;letter-spacing:-.03em;margin:0 0 18px;min-height:52px;color:#142649}
 .about-service p{font-size:13px;line-height:1.6;color:#72809a;margin:0}
 .about-preparation{margin:69px 0 75px}
