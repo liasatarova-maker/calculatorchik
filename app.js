@@ -515,6 +515,12 @@ function showAboutPreview(key){
 document.querySelectorAll("[data-about-prep]").forEach(link=>{
  link.addEventListener("mouseenter",()=>showAboutPreview(link.dataset.aboutPrep));
  link.addEventListener("focus",()=>showAboutPreview(link.dataset.aboutPrep));
+ if(link.dataset.aboutPrep==="calc"){
+  link.addEventListener("click",event=>{
+   event.preventDefault();
+   tab("calc");
+  });
+ }
 });
 
 window.addEventListener("hashchange",()=>tab(currentViewFromHash(),false));
