@@ -473,4 +473,35 @@ function editSaved(x){if(!x?.product)return;const i=DATA.products.findIndex(p=>p
  }
  $("#w").value=cur.c==="SRA3"&&x.unit==="m"?65:(x.w||1);
  $("#h").value=cur.c==="SRA3"&&x.unit==="m"?90:(x.h||1);$("#q").value=x.q||1;$("#designCheck").checked=!!x.design;(x.services||[]).forEach((s,j)=>{const ch=$('[data-si="'+j+'"]'),q=$('[data-qi="'+j+'"]');if(ch)ch.checked=!!s.checked;if(q&&s.qty!=null)q.value=s.qty});$("#save").textContent="Сохранить изменения";calc()}
-function tab(saved){$("#calculatorView").classList.toggle("hidden",saved);$("#savedView").classList.toggle("hidden",!saved);$("#calcTab").classList.toggle("active",!saved);$("#savedTab").classList.toggle("active",saved);if(saved)renderSaved()}$("#calcTab").onclick=()=>tab(false);$("#savedTab").onclick=()=>tab(true);$("#sendSaved").onclick=()=>sendToMax(getSaved());$("#order").onclick=()=>{const item=snapshot();sendToMax([item])};renderProducts();renderSaved();
+function currentViewFromHash(){
+  const route=window.location.hash.slice(1);
+  return ["about","calc","saved"].includes(route)?route:"about";
+}
+function tab(view,syncHash=true){
+  const chosen=typeof view==="boolean"?(view?"saved":"calc"):view;
+  if(!["about","calc","saved"].includes(chosen))return;
+  $("#aboutView").classList.toggle("hidden",chosen!=="about");
+  $("#calculatorView").classList.toggle("hidden",chosen!=="calc");
+  $("#savedView").classList.toggle("hidden",chosen!=="saved");
+  for(const [id,route] of [["aboutTab","about"],["calcTab","calc"],["savedTab","saved"]]){
+    const btn=$("#"+id),selected=chosen===route;
+    btn.classList.toggle("active",selected);
+    btn.setAttribute("aria-pressed",String(selected));
+  }
+  if(chosen==="saved")renderSaved();
+  if(syncHash){
+    history.pushState(null,"","#"+chosen);
+    window.scrollTo(0,0);
+  }
+}
+$("#aboutTab").onclick=()=>tab("about");
+$("#calcTab").onclick=()=>tab("calc");
+$("#savedTab").onclick=()=>tab("saved");
+$("#aboutStartCalc").onclick=()=>tab("calc");
+window.addEventListener("hashchange",()=>tab(currentViewFromHash(),false));
+window.addEventListener("popstate",()=>tab(currentViewFromHash(),false));
+$("#sendSaved").onclick=()=>sendToMax(getSaved());
+$("#order").onclick=()=>{const item=snapshot();sendToMax([item])};
+renderProducts();
+renderSaved();
+tab(currentViewFromHash(),false);

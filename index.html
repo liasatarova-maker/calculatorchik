@@ -1,6 +1,33 @@
-<!doctype html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Калькулятор печати — ЛюксПринт</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
-<header><a class="brand" href="#">ЛЮКСПРИНТ</a><nav><button id="calcTab" class="nav active">Калькулятор</button><button id="savedTab" class="nav">Мои расчёты <span id="savedCount">0</span></button><a class="nav explore-nav" href="gallery.html">Галерея изделий</a><a class="nav explore-nav" href="school.html">LuxPrint School</a></nav></header>
-<main><section id="calculatorView">
+<!doctype html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ЛюксПринт — дизайн, печать и рекламная продукция</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="style.css"></head><body>
+<header class="site-header"><a class="brand" href="index.html#about">ЛЮКСПРИНТ</a><nav class="site-nav" aria-label="Основное меню"><button id="aboutTab" class="nav active" type="button">О нас</button><button id="calcTab" class="nav" type="button">Калькулятор</button><button id="savedTab" class="nav" type="button">Мои расчёты <span id="savedCount" class="nav-count">0</span></button><a class="nav" href="materials.html">Материалы</a><a class="nav" href="gallery.html">Галерея изделий</a><a class="nav" href="school.html">LuxPrint School</a></nav></header>
+<main><section id="aboutView" class="about-view">
+  <div class="about-hero">
+    <div class="about-intro">
+      <span class="about-eyebrow">ЛюксПринт · дизайн и печать</span>
+      <h1>От идеи до готового изделия</h1>
+      <p>Помогаем с дизайном, печатью и изготовлением рекламной продукции. Выбирайте изделия, знакомьтесь с материалами и рассчитывайте предварительную стоимость прямо на сайте.</p>
+      <div class="about-hero-actions">
+        <button type="button" class="primary" id="aboutStartCalc">Рассчитать заказ</button>
+        <a class="secondary" href="materials.html">Наши материалы</a>
+      </div>
+    </div>
+    <div class="about-mascot" aria-hidden="true"><img src="Глянцевый%20синий%20маскот%20в%20бумажной%20лодочке.png" alt=""></div>
+  </div>
+  <section class="about-steps" aria-label="Как мы помогаем">
+    <div class="about-step"><span>01</span><h2>Выбирайте продукцию</h2><p>Полиграфия, баннеры, холсты, вывески, буквы и формы — начните с нужного изделия.</p></div>
+    <div class="about-step"><span>02</span><h2>Подбирайте материал</h2><p>В отдельном разделе собрали основные материалы и объяснили, где их применяют.</p></div>
+    <div class="about-step"><span>03</span><h2>Готовьте макет</h2><p>В карточках продукции есть требования к файлам. При необходимости можно заказать дизайн.</p></div>
+  </section>
+  <section class="about-links-section">
+    <div><span class="about-eyebrow">Полезное на сайте</span><h2>Всё для подготовки заказа</h2></div>
+    <div class="about-link-grid">
+      <a href="materials.html"><strong>Материалы</strong><span>Что выбрать для вашего изделия</span></a>
+      <a href="gallery.html"><strong>Галерея изделий</strong><span>Примеры продукции и подготовка файлов</span></a>
+      <a href="school.html"><strong>LuxPrint School</strong><span>Статьи и обучающие материалы</span></a>
+    </div>
+  </section>
+</section>
+<section id="calculatorView" class="hidden">
 <div class="intro"><div><span class="pill">онлайн-калькулятор</span><h1>Готов к расчёту</h1><p>Выберите продукт — я помогу быстро посчитать предварительную стоимость.</p></div><div class="mascot"><img class="mascotImg" src="Глянцевый%20синий%20маскот%20в%20бумажной%20лодочке.png" alt="Маскот ЛюксПринт"></div></div>
 <button id="backProducts" class="backProducts hidden">← Все продукты</button><section class="panel"><div class="products" id="products"></div>
 <div id="form" class="form hidden"><div class="formhead"><div><small id="category"></small><h2 id="productName"></h2><p id="comment"></p></div></div>
